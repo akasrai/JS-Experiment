@@ -26,10 +26,12 @@ img{
 	overflow: hidden;
 	border: 15px solid gray;
 	position: relative;
+
 }
 
 .slider-wrapper ul{
 	width:8800px;
+	
 
 }
 

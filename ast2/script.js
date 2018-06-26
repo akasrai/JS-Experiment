@@ -26,7 +26,7 @@ body.appendChild(list);
 // 	{top:400, left:390},
 // ];
 
-var coordinatesdata = generateData(10);
+var coordinatesdata = generateData(100);
 
 function generateData(num){
  	var top	 	= 0;
@@ -73,21 +73,21 @@ function plotStar(){
 		colorofstar++;
 	}
 
-	destroyStar();
+	initializeStarDom();
 }
 
-function destroyStar(){
+function initializeStarDom(){
 
 	var star = [];
 
 	for(var i = 0; i < coordinatesdata.length; i++){
 
 		star[i] = document.getElementById("star-"+i);
-		deleteStar(star[i]);
+		removeStar(star[i]);
 	}
 }
 
-function deleteStar(child){
+function removeStar(child){
 
 	child.onclick = function(){
 
