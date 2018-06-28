@@ -26,7 +26,7 @@ body.appendChild(list);
 // 	{top:400, left:390},
 // ];
 
-var coordinatesdata = generateData(100);
+var coordinatesdata = generateData(10);
 
 function generateData(num){
  	var top	 	= 0;
