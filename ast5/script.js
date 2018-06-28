@@ -1,28 +1,28 @@
 
 var $body = document.getElementsByTagName('body')[0];
 var $gamepanel = document.createElement('div');
-$gamepanel.style.background = "black";
-$gamepanel.style.width = "800px";
-$gamepanel.style.height = "500px";
+$gamepanel.style.background = "lightgray";
+$gamepanel.style.width = "845px";
+$gamepanel.style.height = "545px";
 $gamepanel.style.position ="relative";
 $gamepanel.style.margin = "auto";
-$gamepanel.style.border = "15px solid gray";
+// $gamepanel.style.border = "15px solid gray";
 
 $body.appendChild($gamepanel);
 
 var $movingBall = document.createElement('div');
 $movingBall.className = "ball";
 $movingBall.style.position ="absolute";
-$movingBall.style.width ="50px";
-$movingBall.style.height ="50px";
+$movingBall.style.width ="30px";
+$movingBall.style.height ="30px";
 $movingBall.style.background ="red";
 $movingBall.style.borderRadius ="100%";
 
 var $strikingBall = document.createElement('div');
 $strikingBall.className = "strikingbal";
 $strikingBall.style.position ="absolute";
-$strikingBall.style.width ="50px";
-$strikingBall.style.height ="50px";
+$strikingBall.style.width ="30px";
+$strikingBall.style.height ="30px";
 $strikingBall.style.background ="blue";
 $strikingBall.style.borderRadius ="100%";
 
@@ -30,8 +30,8 @@ $strikingBall.style.borderRadius ="100%";
 $gamepanel.appendChild($strikingBall);
 $gamepanel.appendChild($movingBall);
 
-var speed = 15;
-var speed2 = 20;
+var speed = 13;
+var speed2 = 14;
 var direction = [-1,1];
 
 var ball = {
@@ -40,7 +40,7 @@ var ball = {
 	dx: direction[Math.floor(Math.random() * direction.length)],
 	dy: direction[Math.floor(Math.random() * direction.length)],
 	$elem  : $movingBall,
-	radius : 25
+	radius : 15
 	
 };
 
@@ -50,7 +50,7 @@ var ball2 = {
 	dx: direction[Math.floor(Math.random() * direction.length)],
 	dy: direction[Math.floor(Math.random() * direction.length)],
 	$elem  : $strikingBall,
-	radius : 25
+	radius : 15
 };
 
 updateBall(ball,ball2);
@@ -62,10 +62,9 @@ setInterval(function(){
 	ball2.x = ball2.x + ball2.dx * speed2;
 	ball2.y = ball2.y + ball2.dy * speed2;
 
+	updateBall(ball,ball2);
 	checkBoundryCollision();
 	checkCollison(ball, ball2);
-
-	updateBall(ball,ball2);
 },100);
 
 
@@ -79,7 +78,10 @@ function checkCollison(ball1, ball2){
 
 	if( distance(ball1, ball2) <= ball1.radius + ball2.radius ){
 		
-		
+		var ball1dx = ball1.dx;
+		var ball1dy = ball1.dy;
+		var ball2dx = ball2.dx;
+		var ball2dx = ball2.dy;
 		
 		if(ball2.dx === -1 && ball2.dy === -1){
 		
@@ -259,7 +261,8 @@ function checkCollison(ball1, ball2){
 		}else if(ball1.dx === -1 && ball1.dy === 0){
 			ball1.dx = 1;
 			ball1.dy = 0;
-		}
+		}		
+
 	}
 }
 
@@ -289,8 +292,8 @@ function checkBoundryCollision(){
 
 	var containerTop = 0;
 	var containerLeft = 0;
-	var containerRight = 775;
-	var containerBottom = 475;
+	var containerRight = 800;
+	var containerBottom = 500;
 	
 	if(ballTop <= containerTop){
 		
@@ -360,6 +363,7 @@ function smashBall(keyCodeNumber) {
          ball2.dx = 0;
          ball2.dy = 1;
         break;
+
     default:
         //alert("default");
         break;
