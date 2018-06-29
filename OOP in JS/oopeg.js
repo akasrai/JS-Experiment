@@ -4,11 +4,11 @@ function Box(props) {
   this.x = props.x;
   this.y = props.y;
   this.$parent = props.$parent;
-  this.height =
-    (Box.MAX_HEIGHT > props.height ? Box.MAX_HEIGHT : props.h) || 50;
+  this.height = (Box.MAX_HEIGHT > props.height ? Box.MAX_HEIGHT : props.h) || 50;
   this.width = props.width || 50;
   this.dx = props.dx || 1;
   this.dy = props.dy || 1;
+  this.color = props.color;
 
   var self = this;
 
@@ -24,8 +24,10 @@ function Box(props) {
   this.init = function() {
     console.log("INIT IS CALLED", this);
     this.$elem.className = "box";
-    this.$elem.width = this.width;
-    this.$elem.height = this.height;
+    this.$elem.style.width = this.width+"px";
+    this.$elem.style.height = this.height+"px";
+    this.$elem.style.background = this.color;
+    this.$elem.style.position ="absolute";
     plotPosition();
     this.$parent.appendChild(this.$elem);
   };
@@ -48,7 +50,8 @@ Box.someClassFunction = function() {
 var box1 = new Box({
   x: 10,
   y: 20,
-  $parent: $container
+  $parent: $container,
+  color : "green"
 });
 box1.init();
 console.log(box1);
@@ -58,16 +61,17 @@ var box2 = new Box({
   y: 100,
   height: 500,
   width: 100,
-  $parent: $container
+  $parent: $container,
+  color: "red"
 });
 box2.init();
 
-// setInterval(function() {
-//   box1.updatePosition();
-//   box1.plot();
-//   box2.updatePosition();
-//   box2.plot();
-// }, 100);
+setInterval(function() {
+  box1.updatePosition();
+  box1.plot();
+  box2.updatePosition();
+  box2.plot();
+}, 800);
 
 console.log(box2);
 
