@@ -1,8 +1,4 @@
 
-var $container 		= document.getElementById("container");
-var containerWidth 	= 970;
-var containerHeight	= 470;
-
 function Ball(props){
 
 	var direction	= [-1,1];
@@ -18,7 +14,8 @@ function Ball(props){
 	this.containerHeight	= props.containerH;
 	this.containerWidth		= props.containerW;
 	this.ballid 			= props.ballid;
-	this.backgroundImage	= ( this.dx === 1) ?  "url('fish_right.png')" : "url('fish_left.png')";
+	this.backgroundImage	= ( this.dx === 1) ?  "url('images/fish_right.png')" : "url('images/fish_left.png')";
+	this.score				= 0;
 
 	//THIS IS NOW SET TO SELF SO THAT PRIVATE FUNCTION CAN ACCESS THIS PROPERTIES
 	var self = this;
@@ -39,6 +36,7 @@ function Ball(props){
 	  
 	    plotPosition();
 	    self.$parent.appendChild(self.$elem);
+	    
 	}
 
 	// UPDATING THE POSITIONS FOR MOVING THE BALLS 
@@ -65,12 +63,6 @@ function Ball(props){
 			while(i < balls.length){
 
 				if(((Math.abs( balls[i].x - newXPos)) < 30 ) && (Math.abs( balls[i].y - newYPos)) < 30){
-
-					// console.log("ball pos "+i+" "+ balls[i].x);
-					// console.log("new pos "+i+" "+newXPos);
-					// console.log("ball diff "+(Math.abs( balls[i].x - newXPos)));
-					// console.log(this.width);
-					// console.log(i +" false")
 					
 					newXPos =  Math.floor(Math.random() * (self.containerWidth - self.width));
 					newYPos =  Math.floor(Math.random() * (self.containerHeight - self.width));
@@ -126,12 +118,12 @@ function Ball(props){
 			if(self.x <= containerLeft){
 
 				self.x  = 0;
-				self.backgroundImage ="url('fish_right.png')";
+				self.backgroundImage ="url('images/fish_right.png')";
 			}
 			if(self.x >= containerRight){ 
 
 				self.x = containerRight - self.width;
-				self.backgroundImage ="url('fish_left.png')";
+				self.backgroundImage ="url('images/fish_left.png')";
 			}
 
 			self.dx = -(self.dx);
@@ -189,17 +181,17 @@ function Ball(props){
 		// CHANGING THE BG FISH DIRECTION
 		if(ball1.dx === 1 ){
 
-			ball1.backgroundImage ="url('fish_right.png')";
+			ball1.backgroundImage ="url('images/fish_right.png')";
 		}else{
 
-			ball1.backgroundImage ="url('fish_left.png')";
+			ball1.backgroundImage ="url('images/fish_left.png')";
 		}
 		if(ball2.dx === 1 ){
 
-			ball2.backgroundImage ="url('fish_right.png')";
+			ball2.backgroundImage ="url('images/fish_right.png')";
 		}else{
 
-			ball2.backgroundImage ="url('fish_left.png')";
+			ball2.backgroundImage ="url('images/fish_left.png')";
 		}
 
 		// CHANGING THE SPEED OF BALL AFTER COLLISION
@@ -210,68 +202,43 @@ function Ball(props){
 	}
 
 	// FUNCTION TO INITIALIZE BALL POSITION TO DELETE
-	this.ballPositionDetection = function(){
+	this.ballDestroy = function(){
 
 		self.$elem.onclick = function(){
-	
-			var $gamePanel = document.getElementById('container');
-			$gamePanel.removeChild(self.$elem);
+		
+			var time = 10;
 			
-			// GETTING INDEX TO DELETE
-			var removeIndex = balls.indexOf(self);
+			var destrySoundImageLoop = setInterval(function(){
 
-			// DELETING FROM ARRAY
-			balls.splice(removeIndex, 1);
-			console.log(balls.length);
+				self.backgroundImage ="url('images/fire2.gif')";
+				destroyedSound = new GameSound("sound/sound.mp3");
+				destroyedSound.play();
 
+				if(time === 0){
+					clearInterval(destrySoundImageLoop);
+
+					// REMOVES BALL FROM PARENT
+					self.$parent.removeChild(self.$elem);
+					
+					// GETTING INDEX TO DELETE
+					var removeIndex = balls.indexOf(self);
+
+					// DELETING FROM ARRAY
+					balls.splice(removeIndex, 1);
+
+					// SCORE IS STORED IN GLOBAL VARIABLE
+					score += 2;
+					console.log(balls.length);
+				}
+
+				time--;
+
+			},10);
 		} 
+		//console.log(self.score);
 	}
 
-
-
+	
 } 
 
-// CREATING ARRAY OF OBJECTS
-var balls = [];
 
-function createBalls(num){
-
-	var x = "x",
-		y = "y";
-	for( var i = 0; i < num; i++){
-
-		balls[i] = new Ball({
-		
-			width		: 30,
-			height		: 30,
-			x			: Math.floor(Math.random() * containerWidth), //( i === 0) ?  Math.floor(Math.random() * 980) : balls[i].uniqueBallPosition(i, x),
-			y			: Math.floor(Math.random() * containerHeight), //( i === 0) ?  Math.floor(Math.random() * 480) : balls[i].uniqueBallPosition(i, y),
-			$parent		: $container,
-			containerH  : containerHeight,
-			containerW	: containerWidth,
-			speed	 	: Math.floor(Math.random() * 5)+1,
-			collision 	: 0,
-			ballid 		: i+1,
-			backgroundImage : ""
-		});
-
-		// balls[i].x = balls[i].uniqueBallPosition(i, x);
-		// balls[i].y = balls[i].uniqueBallPosition(i, y);
-		balls[i].initBalls();
-	}
-
-}
-
-createBalls(20);
-
-setInterval(function() {
-	for(var i = 0; i <balls.length; i++){
-
-		balls[i].updateBallPosition();
-		balls[i].bounceBall();
-		balls[i].checkBoundryCollision();
-		balls[i].checkInterCollision();
-		balls[i].ballPositionDetection();
-	}
-
-}, 50);
