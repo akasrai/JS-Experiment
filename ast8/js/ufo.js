@@ -116,4 +116,10 @@ function FlyingUFO(props){
  			thisUfo.dx = -(thisUfo.dx);
  		} 
 	}
+
+	// DESTROY ALL UFO CREATED
+	this.destroyAllUfo = function(){
+		
+		thisUfo.$parent.removeChild(thisUfo.$ufo);
+	}
 }

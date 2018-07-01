@@ -123,7 +123,7 @@ function GameLevel(props){
 		});
 
 		// CHECK IF UFO HITS SHOOTER
-		checkUfoHitShooter();
+		var shooterDestroyed = checkUfoHitShooter();
 
 		// GET THE BULLETS FIRED DATA
 		bulletsFired = shooter.bulletsFired();
@@ -131,6 +131,7 @@ function GameLevel(props){
 		// CHECKING IF BULLET HITS UFOS
 		bulletHitUfo();
 
+		return shooterDestroyed;
 	}
 
 	// CHECKING IF THE BULLETS HITS THE UFOS
@@ -158,6 +159,10 @@ function GameLevel(props){
 				   			bulletsFired[i].destroyBullet();
 							ufoCreated[j].destroyUfo(ufoCreated);
 
+							// BLAST SOUND
+							var explode = new GameSound("sound/explode3.mp3");
+							explode.play();
+						
 							// COUNTING SCORE
 							gameScore += thisGame.point;
 							gameKills ++;
@@ -193,8 +198,23 @@ function GameLevel(props){
 				
 				ufoCreated[i].destroyUfo(ufoCreated);
 				shooter.destroyShooter();
+				
+				return true;
 			}
-		}	
+		}
+
+		return false;	
+	}
+
+	// DESTROY ALL PREVIOUS UFOS AFTER RESTARTING GAME
+	this.destroyAllUfos = function(){
+
+		ufoCreated.forEach(function(ufo){
+
+			ufo.destroyAllUfo();
+		});
+
+		ufoCreated = [];
 	}
 
 	// GET SCORE PANEL FROM GAME PANEL

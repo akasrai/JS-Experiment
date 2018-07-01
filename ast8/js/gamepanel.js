@@ -23,6 +23,8 @@ function GamePanel(props){
 	this.$controlPanel = document.createElement("div");
 	this.$pauseButton = document.createElement("div");
 	this.$scorePanel = document.createElement("div");
+	this.$gameOverPanel = document.createElement("div");
+	this.$exitButtton = document.createElement("div");
 
 	this.initGamePanel = function(){
 
@@ -30,6 +32,7 @@ function GamePanel(props){
 		thisPanel.$gamePanel.style.height = thisPanel.height + "px";
 		thisPanel.$gamePanel.className 	= thisPanel.class;
 		thisPanel.$gamePanel.setAttribute("id",thisPanel.id);
+		thisPanel.$gamePanel.style.background = thisPanel.background;
 
 		thisPanel.$parent.appendChild(thisPanel.$gamePanel);
 
@@ -75,11 +78,26 @@ function GamePanel(props){
 
 		thisPanel.$playButton.setAttribute("id","playbutton");
 		thisPanel.$playButton.className= "button-for-all";
-		thisPanel.$playButton.style.margin= "50px 35%";
-		thisPanel.$playButton.innerHTML = "<p>YES, LETS FIGHT</p>";
 		thisPanel.$gamePanel.appendChild(thisPanel.$playButton);
 
 		return thisPanel.$playButton;		
+	}
+
+	// ADDING PLAY SETTING AND OTHER BUTTOMS
+	this.exitButton = function(){
+
+		thisPanel.$exitButtton.setAttribute("id","exitbutton");
+		thisPanel.$exitButtton.className= "button-for-all";
+		thisPanel.$exitButtton.innerHTML = "<p>EXIT TO MAIN MENU</p>";
+		thisPanel.$gamePanel.appendChild(thisPanel.$exitButtton);
+
+		return thisPanel.$exitButtton;		
+	}
+
+	// BUTTON MESSAGE
+	this.buttonName = function(name){
+
+		thisPanel.$playButton.innerHTML = "<p>" + name + "</p>";
 	}
 
 	// RESET PANEL CONTENT TO PLAY GAMES
@@ -138,9 +156,23 @@ function GamePanel(props){
 		return thisPanel.$scorePanel;
 	}
 
-	// UPDATE POINTS IN SCORE PANEL
-	// this.updatScore = function(){
+	// GAME OVER PANEL
+	this.gameOverMessage = function(){
 
-	// 	thisPanel.$scorePanel.innerHTML = thisPanel.score;
-	// }
-}
+		thisPanel.$gamePanel.innerHTML = "<p>We are so sorry!!! You couldn't survive the Battle</p><h1>- GAME OVER -</h1>";
+
+	}
+
+	// REMOVE GAME PANEL TO RESTART
+	this.removePanel = function(){
+
+		thisPanel.$parent.removeChild(thisPanel.$gamePanel);
+	}
+
+	// REMOVE CONTROL PANEL TO RESTART
+	this.removeControlPanel = function(){
+
+		thisPanel.$parent.removeChild(thisPanel.$controlPanel);
+	}
+
+} 

@@ -7,14 +7,19 @@ var $container = document.getElementById("container"),
 	bulletid		= 0,
 	gamePlaying,
 	// IF GAME IS IN PALY OR PAUSE STATE
-	play = true;
+	play = true,
+	// IF SHOOTER IS DESTROYED
+	shooterDestroyed = false,
+	$panelCreated,
+	gamePanel,
+	backgroundMusic;
 
 	
 
 function startGame(){
 
 	// CREATES GAME PANEL DIV
-	var gamePanel = new GamePanel({
+	gamePanel = new GamePanel({
 
 		width 	: gamePanelWidth,
 		height 	: gamePanelHeight,
@@ -26,22 +31,24 @@ function startGame(){
 
 	});
 
-	var $panelCreated = gamePanel.initGamePanel();
+	$panelCreated = gamePanel.initGamePanel();
 	// SCROLL BG INFINITY
-	gamePanel.infinityBackground();
+	// gamePanel.infinityBackground();
 	gamePanel.welComePanel();
 	
 	// RETURN DOM ELEMENT AFTER ADDING BUTONS
 	var $elem = gamePanel.addButtoms();
+	gamePanel.buttonName("YES, LETS FIGHT");
 	
-	$elem.addEventListener("click", function(){ setLevel($panelCreated, gamePanel);});
+	$elem.addEventListener("click", function(){ setLevel(gamePanel);});
 }
 
 
-function setLevel($panelCreated, gamePanel){
+function setLevel(resetPanel){
 
+	gamePanel.infinityBackground();
 	// RESETTING THE GAMEPANEL TO PLAY GAME USING gamePanel OBJECT OF GamePanel
-	gamePanel.resetGamePanel();
+	resetPanel.resetGamePanel();
 
 	// ADDING CONTROL PANEL ON THE TOP
 	var $controlpanel = gamePanel.addControlPanel();
@@ -63,10 +70,10 @@ function setLevel($panelCreated, gamePanel){
 
 	});
 
-	var level2 = new GameLevel({
+	var level1 = new GameLevel({
 
 		level 	: 2,
-		ufos 	: 50,
+		ufos 	: 100,
 		parent 	: $panelCreated,
 		speed 	: 10,
 		ufoLife : 2,
@@ -77,28 +84,30 @@ function setLevel($panelCreated, gamePanel){
 	var shooter = level.createShooter();
 	var ufos 	= level.createUfos();
 	var scoreCounter = level.scorePanelInitialise($scorepanel);
-						level.gameScore();
+					   level.gameScore();		  
 
 	backgroundMusic = new GameSound("sound/bg.mp3");
 	backgroundMusic.play();
 
 	$pause.onclick = function(){
 
-		if(play){
-
-			play = false;
-			clearInterval(gamePlaying);
-			gamePanel.changePauseIcon("images/play.png");
-			gamePanel.pauseInfinityBg();
-			backgroundMusic.stop();
-
-		}else{
-
-			play = true;
-			playGame(level, shooter);
-			gamePanel.changePauseIcon("images/pause.png");
-			gamePanel.infinityBackground();
-			backgroundMusic.play();
+		if(!shooterDestroyed){
+			if(play){
+	
+				play = false;
+				clearInterval(gamePlaying);
+				gamePanel.changePauseIcon("images/play.png");
+				gamePanel.pauseInfinityBg();
+				backgroundMusic.stop();
+	
+			}else{
+	
+				play = true;
+				playGame(level, shooter);
+				gamePanel.changePauseIcon("images/pause.png");
+				gamePanel.infinityBackground();
+				backgroundMusic.play();
+			}
 		}
 	}
 
@@ -106,11 +115,12 @@ function setLevel($panelCreated, gamePanel){
 }
 
 function playGame(level, shooter){
+
 	// SETTING INTERVAL FOR GAME
 	gamePlaying = setInterval(function(){
 
 		// CHECK SHOTTERS ALL COLLIION
-		level.checkCollision(shooter);
+		shooterDestroyed = level.checkCollision(shooter);
 
 		// FLIES THE UFO 
 		level.flyUfo();
@@ -120,12 +130,65 @@ function playGame(level, shooter){
 			var keyDownEvent 	= event || window.event,
 	       		keyPressedCode 	= (keyDownEvent.which) ? keyDownEvent.which : keyDownEvent.keyCode;
 			
-			if(play){
+			if(play === true && shooterDestroyed === false){
+
 				shooter.checKeyPressed(keyPressedCode);	
 			}
+		}
+
+		if(shooterDestroyed){
+
+			clearInterval(gamePlaying);
+			gamePanel.pauseInfinityBg();
+			gamePanel.changePauseIcon("images/stop.png");
+			backgroundMusic.stop();
+			gameOver(level);
+
 		}
 	
 	},intervalSpeed);
 }
 
 startGame();
+
+
+function gameOver(level){
+
+	var gameover = new GamePanel({
+
+		width : 500,
+		height : "auto",
+		class : "game-over-panel",
+		id : "gameover",
+		background : "rgba(132, 5, 5, 0.52)",
+		parent : $container
+	});
+
+
+
+	gameover.initGamePanel();
+	gameover.gameOverMessage();
+	var $restart = gameover.addButtoms();
+				gameover.buttonName("CHALLENGE AGAIN?");
+
+	var $exit = gameover.exitButton();
+
+	$restart.onclick = function(){
+
+		level.destroyAllUfos();
+
+		setLevel(gameover);
+	}
+
+	$exit.onclick = function(){
+
+		level.destroyAllUfos();
+		gameover.removePanel();
+		gamePanel.removePanel();
+		gamePanel.removeControlPanel();
+
+		startGame();
+
+	}
+
+}
