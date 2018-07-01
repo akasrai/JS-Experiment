@@ -15,7 +15,7 @@ function FlyingUFO(props){
  	this.panelWidth = props.panelWidth;
  	this.panelHeight= props.panelHeight;
  	this.crashed 	= 0;
- 	
+
  	var thisUfo = this;
 
  	// CREATING DIV FOR UFOS
@@ -25,7 +25,7 @@ function FlyingUFO(props){
 
  		thisUfo.$ufo.style.width	= thisUfo.width + "px";
  		thisUfo.$ufo.style.height	= thisUfo.height + "px";
- 		thisUfo.$ufo.style.background	= thisUfo.background;
+ 		thisUfo.$ufo.style.backgroundImage	= "url("+thisUfo.background+")";
  		thisUfo.$ufo.setAttribute("id",thisUfo.id);
  		thisUfo.$ufo.className = thisUfo.class;
 
@@ -58,16 +58,16 @@ function FlyingUFO(props){
  	this.getUniquePosition = function(ufos, pos){
 	
 		var newXPos = Math.floor(Math.random() * gamePanelWidth);
-		var newYPos = Math.floor(Math.random() * gamePanelWidth);
+		// var newYPos = Math.floor(Math.random() * gamePanelWidth);
 		
 		for(var i = 0; i < ufos.length; i++){
 
 			while(i < ufos.length){
 
-				if(((Math.abs( ufos[i].x - newXPos)) < thisUfo.width ) && (Math.abs( ufos[i].y - newYPos)) < thisUfo.height){
+				if((Math.abs( ufos[i].x - newXPos)) < thisUfo.width/* ) && (Math.abs( ufos[i].y - newYPos)) < thisUfo.height*/){
 					
 					newXPos =  Math.floor(Math.random() * (gamePanelWidth - thisUfo.width) );
-					newYPos =  - Math.floor(Math.random() * gamePanelWidth );
+					// newYPos =  - Math.floor(Math.random() * gamePanelWidth );
 					
 				}else{					
 					break;
@@ -75,25 +75,36 @@ function FlyingUFO(props){
 			}
 		}
 
-		if(pos === "x"){
-			return newXPos;
+		// if(pos === "x"){
+		// 	return newXPos;
 
-		}else{
-			return newYPos;
-		}
+		// }else{
+			return newXPos;
+		// }
 
 	}
 
 	// DESTROY UFOS AFTER CRASH
 	this.destroyUfo = function(ufoCreated){
 
-		thisUfo.$parent.removeChild(thisUfo.$ufo);
+		thisUfo.$ufo.style.backgroundImage	= "url(images/fire2.gif)";
+		
+		var timeoutID = window.setTimeout(removeUfo, 200);
+
 		// GETTING INDEX TO DELETE
 		var removeIndex = ufoCreated.indexOf(thisUfo);
-		
+			
 		// DELETING FROM ARRAY
 		ufoCreated.splice(removeIndex, 1);
 
 		console.log(ufoCreated.length);
+	
+	}
+
+	// DESTROY OBJ AFTER SOMETIME USING SETTIMEOUT
+	var removeUfo = function(){
+
+		thisUfo.$parent.removeChild(thisUfo.$ufo);
+
 	}
 }

@@ -6,8 +6,8 @@ function Bullet(props){
  	this.class  = props.class || "bullet";
  	this.id 	= props.id || "bullet";
  	this.$parent = props.parent;
- 	this.background = props.background || "yellow";
- 	this.speed 		= props.speed || 10;
+ 	this.background = props.background || "images/bullet.png";
+ 	this.speed 		= props.speed || 20;
  	this.dy 		= 1;
  	this.x 			= props.left;
  	this.y 			= props.bottom;
@@ -24,7 +24,7 @@ function Bullet(props){
 
  		thisBullet.$bullet.style.width 		= thisBullet.width + "px";
  		thisBullet.$bullet.style.height 	= thisBullet.height + "px";
- 		thisBullet.$bullet.style.background = thisBullet.background;
+ 		thisBullet.$bullet.style.backgroundImage = "url("+ thisBullet.background+ ")";
  		thisBullet.$bullet.setAttribute("id", thisBullet.id);
  		thisBullet.$bullet.className		= thisBullet.class;
  		thisBullet.$bullet.style.left 	= thisBullet.x + "px";
@@ -76,8 +76,11 @@ function Bullet(props){
 
  	this.destroyBullet = function(){
  		
- 		console.log(thisBullet);
- 		thisBullet.$bullet.style.display = "none";
- 		thisBullet.$parentOfParent.removeChild(thisBullet.$bullet);
+	 	if (typeof thisBullet.$bullet !== 'undefined'){
+
+	 		thisBullet.$bullet.style.backgroundImage = "url(images/fire2.gif)";
+	 		thisBullet.$bullet.style.display = "none";
+	 		thisBullet.$parentOfParent.removeChild(thisBullet.$bullet);
+ 		}
  	}
 }

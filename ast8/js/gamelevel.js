@@ -23,12 +23,12 @@ function GameLevel(props){
 		// CREATINF SHOOTER
 		shooter = new Shooter({
 		
-			width 	: (gamePanelWidth / 8) - 30,
-			height 	: 100,
+			width 	: 100,
+			height 	: 120,
 			parent 	: thisGame.$parent,
 			class 	: "shooter",
 			id 		: "shooter",
-			background : "green",
+			background : "images/still.gif",
 			left 	   : (gamePanelWidth / 8) * 4 - 62,
 			parentHeight : gamePanelHeight,
 			parentWidth  : gamePanelWidth
@@ -42,25 +42,36 @@ function GameLevel(props){
 	// CREATING UFOS USING FlyingUFO CLASS
 	this.createUfos = function(){
 
+		var ufoRow = 0;
+		var ufoHeight = gamePanelHeight;
+		
 		for(var i = 0; i < thisGame.ufos; i++){
 
 			ufoCreated[i] = new FlyingUFO({
 
-				width 		: 50,
-				height 		: 50,
+				width 		: 120,
+				height 		: 100,
 				id 			: "ufo-" + i,
 				left		: Math.floor(Math.random() * gamePanelWidth ),
-				bottom 		: Math.floor(Math.random() * gamePanelHeight) + gamePanelHeight,
+				bottom 		: ufoHeight,
 				parent 		: thisGame.$parent,
 				speed 		: thisGame.speed,
+				background	: "images/v6.png"
 
 			});
 
 			ufoCreated[i].left = ufoCreated[i].getUniquePosition(ufoCreated, "x");
-			ufoCreated[i].top = ufoCreated[i].getUniquePosition(ufoCreated, "y");
+			// ufoCreated[i].top = ufoCreated[i].getUniquePosition(ufoCreated, "y");
 
 			ufoCreated[i].initUfo();
 
+			if(ufoRow < 3){
+				ufoHeight = ufoHeight;
+				ufoRow ++;
+			}else{
+				ufoRow = 0;
+				ufoHeight += 200;
+			}
 		}
 		
 	}
@@ -71,7 +82,7 @@ function GameLevel(props){
 		for(var i = 0; i < thisGame.ufos; i++){
 
 			// CHECKING IS UFO IS DESTROYED ALREADY 
-			if(ufoCreated[i] != undefined){
+			if(typeof ufoCreated[i] !== "undefined"){
 				ufoCreated[i].ufosInMotion();
 			}
 		}
@@ -102,18 +113,18 @@ function GameLevel(props){
 		//console.log(bulletsFired.length);
 		for(var i = 0; i < bulletsFired.length; i++){
 
-			if(bulletsFired[i].y < gamePanelHeight){
+			for(var j = 0; j < ufoCreated.length; j++ ){
 
-				for(var j = 0; j < ufoCreated.length; j++ ){
+				if(bulletsFired[i].y < gamePanelHeight){
 
 				    var bulletY = bulletsFired[i].y + bulletsFired[i].height,
 				    	ufoY	= ufoCreated[j].y + ufoCreated[j].height,
 				    	bulletX = Math.abs((bulletsFired[i].x + bulletsFired[i].parentX) - ufoCreated[j].x),
-				    	ufoX 	= 0;
+				    	bulletW = Math.abs(bulletsFired[i].width + 50);
 
-				   	// console.log(Math.abs(bulletX));
+					
 				   	// DESTROY THE BULLETS AND UFO IF BULLET HITS UFO
-				   	if( (bulletY > ufoCreated[j].y) && (bulletX < bulletsFired[i].width) /*&& (bulletY < ufoY)*/) {
+				   	if( (bulletY > ufoCreated[j].y) && (bulletX < bulletW ) /*&& (bulletY < ufoY)*/) {
 
 				   		if(ufoCreated[j].crashed > thisGame.ufoLife){
 
@@ -125,12 +136,12 @@ function GameLevel(props){
 				   			ufoCreated[j].crashed += 1;
 				   		}					  		
 					}
+				}
 
-					// DESTROY THE UFO IF IT CROSSES THE BOTTOM SCREEN
-					if((ufoCreated[j].y != undefined) && (ufoCreated[j].y <= -100)){
+				// DESTROY THE UFO IF IT CROSSES THE BOTTOM SCREEN
+				if(( typeof ufoCreated[j] !== "undefined") && (ufoCreated[j].y <= -100)){
 
-						ufoCreated[j].destroyUfo(ufoCreated);
-					}
+					ufoCreated[j].destroyUfo(ufoCreated);
 				}
 			}
 		}
@@ -141,11 +152,15 @@ function GameLevel(props){
 
 		for(var i = 0; i < ufoCreated.length; i++){
 
-			var ufoX = ufoCreated[i].x - shooter.x,
-				ufoY = Math.abs(ufoCreated[i].y - shooter.y) + shooter.height;
+			var crashX = Math.abs( ufoCreated[i].x - shooter.x),
+				crashY = Math.abs(ufoCreated[i].y - shooter.y),
+				crashWidth = (ufoCreated[i].width + shooter.width) / 2,
+				crashHeight = (ufoCreated[i].height + shooter.height) / 2;
 
-			if(ufoX <= shooter.width && ufoY < shooter.y){
-				alert("destroyed");
+			if(crashX <= crashWidth && crashY < crashHeight){
+				
+				ufoCreated[i].destroyUfo(ufoCreated);
+				shooter.destroyShooter();
 			}
 		}	
 	}

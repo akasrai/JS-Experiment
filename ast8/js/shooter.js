@@ -7,7 +7,7 @@
  	this.id 	= props.id || "shooter";
  	this.$parent = props.parent;
  	this.background = props.background;
- 	this.speed 		= props.speed || 30;
+ 	this.speed 		= props.speed || 10;
  	this.dx 		= 0;
  	this.dy 		= 0;
  	this.x 			= props.left || 50;
@@ -30,7 +30,7 @@
  		thisShooter.$shooter.style.height	= thisShooter.height+ "px";
  		thisShooter.$shooter.className 	= thisShooter.class;
  		thisShooter.$shooter.setAttribute("id", thisShooter.id);
- 		thisShooter.$shooter.style.background	= thisShooter.background;
+ 		thisShooter.$shooter.style.backgroundImage	= "url("+thisShooter.background+")";
 
  		// PLOTTING THE POSITION FROM PRIVATE FUNCTION
  		plotPosition();
@@ -87,10 +87,12 @@
 
 	        thisShooter.dx = -1;
 	        thisShooter.dy = 0;
+	        thisShooter.$shooter.style.backgroundImage	= "url(images/skew_left.gif)";
 
 	        // PLOTTING THE NEW POSITION OF SHOOTER
 	        thisShooter.updateNewPosition();
  			plotPosition();
+ 			var timeoutID = window.setTimeout(changeBackground, 200);	
 	        break;
 
 	    case UP:
@@ -107,10 +109,12 @@
 
 	        thisShooter.dx = 1;
 	        thisShooter.dy = 0;
+	        thisShooter.$shooter.style.backgroundImage	= "url(images/skew_right.gif)";
 
 	        // PLOTTING THE NEW POSITION OF SHOOTER
 	        thisShooter.updateNewPosition();
  			plotPosition();
+ 			var timeoutID = window.setTimeout(changeBackground, 200);	
 	        break;
 	    case DOWN:
 
@@ -129,13 +133,15 @@
 	    		parent 	: thisShooter.$shooter,
 	    		parentOfParent : thisShooter.$parent,
 	    		left 	: 35,
-	    		bottom  : thisShooter.y,
+	    		bottom  : thisShooter.y+20,
 	    		parentHeight : thisShooter.parentHeight,
 	    		parentWidth : thisShooter.parentWidth,
 	    		parentX	: thisShooter.x
 	    	});
 
 	     	firedbullet[bulletcount].initBullet();
+	     	destroyedSound = new GameSound("sound/gun.mp3");
+			destroyedSound.play();
 	     	bulletcount++;
 
 	    	break;
@@ -170,4 +176,24 @@
  		//console.log(firedbullet);
  		return firedbullet;
  	}
+
+ 	// DESTROY SHOOTER IF CRASHED
+ 	this.destroyShooter = function(){
+
+ 		thisShooter.$shooter.style.backgroundImage	= "url(images/fire2.gif)";
+ 		var timeoutID = window.setTimeout(removeShooter, 400);	
+
+ 	}
+
+ 	// REMOVE DIV OF SHOOTER ONCE ITS DESTROYED
+ 	var removeShooter = function(){
+
+ 		thisShooter.$parent.removeChild(thisShooter.$shooter);
+ 	}
+
+	// CHANGING BACKGROUND OF SHOOTER
+	var changeBackground = function(){
+
+		thisShooter.$shooter.style.backgroundImage	= "url("+thisShooter.background+")";		
+	}
  }
