@@ -7,7 +7,7 @@ function Bullet(props){
  	this.id 	= props.id || "bullet";
  	this.$parent = props.parent;
  	this.background = props.background || "yellow";
- 	this.speed 		= props.speed || 15;
+ 	this.speed 		= props.speed || 10;
  	this.dy 		= 1;
  	this.x 			= props.left;
  	this.y 			= props.bottom;
@@ -16,52 +16,68 @@ function Bullet(props){
  	this.$parentOfParent = props.parentOfParent;
  	this.parentX = props.parentX;
 
- 	var bulletThis = this;
+ 	var thisBullet = this;
 
  	this.$bullet = document.createElement("div");
 
- 	this.initBullet = function(){
+ 	this.initBullet = function(bullet){
 
- 		bulletThis.$bullet.style.width 		= bulletThis.width + "px";
- 		bulletThis.$bullet.style.height 	= bulletThis.height + "px";
- 		bulletThis.$bullet.style.background = bulletThis.background;
- 		bulletThis.$bullet.setAttribute("id", bulletThis.id);
- 		bulletThis.$bullet.className		= bulletThis.class;
- 		bulletThis.$bullet.style.left 	= bulletThis.x + "px";
- 		bulletThis.$bullet.style.bottom	= bulletThis.y + "px";
+ 		thisBullet.$bullet.style.width 		= thisBullet.width + "px";
+ 		thisBullet.$bullet.style.height 	= thisBullet.height + "px";
+ 		thisBullet.$bullet.style.background = thisBullet.background;
+ 		thisBullet.$bullet.setAttribute("id", thisBullet.id);
+ 		thisBullet.$bullet.className		= thisBullet.class;
+ 		thisBullet.$bullet.style.left 	= thisBullet.x + "px";
+ 		thisBullet.$bullet.style.bottom	= thisBullet.y + "px";
 
  		// BULLET APPENDED TO SHOOTER OBJ SO THAT IT LOOKS LIKE BULLET COMING OUT FROM SHOOTER
- 		bulletThis.$parent.appendChild(bulletThis.$bullet);
+ 		thisBullet.$parent.appendChild(thisBullet.$bullet);
 
- 		fireBullet();
- 		return bulletThis.$bullet;
+ 		// TO MOVE THE BULLET
+ 		fireBullet(bullet);
+
+ 		return thisBullet.$bullet;
  	}
 
- 	var updateBulletPosition = function(){
+ 	var updateBulletPosition = function(bullet){
 
  		// ADDING SHOOTERS X POSITION TO MAKE IT FLY ON SAME POSITION OF SHOOTERS PARENT
- 		bulletThis.$bullet.style.left 	= bulletThis.x + bulletThis.parentX + "px";
- 		bulletThis.$bullet.style.bottom	= bulletThis.y + "px";
- 		bulletThis.y += bulletThis.dy * bulletThis.speed;
+ 		thisBullet.$bullet.style.left 	= thisBullet.x + thisBullet.parentX + "px";
+ 		thisBullet.$bullet.style.bottom	= thisBullet.y + "px";
+ 		thisBullet.y += thisBullet.dy * thisBullet.speed;
 
  		// BULLET IS APPENDED NOW TO THE SHOOTERS PARENT SO IT INDEPENDENT FORM SHOOTER
- 		bulletThis.$parentOfParent.appendChild(bulletThis.$bullet);
+ 		thisBullet.$parentOfParent.appendChild(thisBullet.$bullet);
+
+ 		// IF BULLET CROSSES THE SCREEN ITS REMOVED FRO THE SCREEN AND ARRAY
+ 		if(thisBullet.y > thisBullet.parentHeight){
+
+ 			thisBullet.$parentOfParent.removeChild(thisBullet.$bullet);
+				
+ 		}
+		
  	}
 
- 	var fireBullet = function(){
+ 	var fireBullet = function(bullet){
 
  		var firedBullet = setInterval(function(){
 
- 			updateBulletPosition();
+ 			updateBulletPosition(bullet);
 
- 			if(bulletThis.y > (bulletThis.parentHeight + 100)){
- 				//alert("stopped");
+ 			if(thisBullet.y > (thisBullet.parentHeight + 100)){
+ 				
  				clearInterval(firedBullet);
- 			
  				return false;
  			}
 
  		},10)
  		
+ 	}
+
+ 	this.destroyBullet = function(){
+ 		
+ 		console.log(thisBullet);
+ 		thisBullet.$bullet.style.display = "none";
+ 		thisBullet.$parentOfParent.removeChild(thisBullet.$bullet);
  	}
 }

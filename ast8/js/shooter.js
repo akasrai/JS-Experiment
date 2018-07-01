@@ -15,6 +15,10 @@
  	this.parentHeight = props.parentHeight;
  	this.parentWidth  = props.parentWidth;
 
+ 	// TO STORED THE BULLETS FIRED AND COUNT
+ 	var firedbullet = [];
+ 	var bulletcount = 0;
+
  	var thisShooter = this;
 
  	// CREATING SHOOTER
@@ -65,6 +69,8 @@
  			(thisShooter.y <= 0) ? thisShooter.y = 0 : thisShooter.y = thisShooter.parentHeight - thisShooter.height; 
  			thisShooter.dy = -(thisShooter.dy);
  		} 
+
+ 		return thisShooter.$parent;
  	}
 
  	// CHECKING KEY PRESSED TO MOVE LEFT AND RIGHT
@@ -118,8 +124,8 @@
 
 	    case FIRE:
 
-	    	var fireBullet = new Bullet({
-	    		id 		: "bullet-" + bulletid,
+	    	firedbullet[bulletcount] = new Bullet({
+	    		id 		: "bullet-" + bulletcount,
 	    		parent 	: thisShooter.$shooter,
 	    		parentOfParent : thisShooter.$parent,
 	    		left 	: 35,
@@ -129,13 +135,39 @@
 	    		parentX	: thisShooter.x
 	    	});
 
-	    	fireBullet.initBullet();
-	    	bulletid++;
+	     	firedbullet[bulletcount].initBullet();
+	     	bulletcount++;
+
 	    	break;
 
 	    default:
 	      
 	        break;
 	    }
+ 	}
+
+ 	// RETURN THE BULLETS FIRED TO ACCESS FOR OTHER CLASSES
+ 	this.bulletsFired = function(){
+
+ 		// IF BULLET CROSSES THE SCREEN ITS REMOVED FRO THE SCREEN AND ARRAY
+ 		firedbullet.forEach(function(bullet) {
+			
+			if( bullet.y <  thisShooter.parentHeight){
+
+	 			// GETTING INDEX TO DELETE
+				// var removeIndex = firedbullet.indexOf(bullet);
+				
+				// DELETING FROM ARRAY
+				// firedbullet.splice(removeIndex, 1);
+
+				// if(firedbullet[removeIndex] == undefined ){
+
+				// 	firedbullet = [];
+				// }
+	 		}
+		});
+ 		//console.log(firedbullet.length);
+ 		//console.log(firedbullet);
+ 		return firedbullet;
  	}
  }

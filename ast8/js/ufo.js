@@ -7,11 +7,14 @@ function FlyingUFO(props){
  	this.id 	= props.id || "ufo";
  	this.$parent = props.parent;
  	this.background = props.background || "yellow";
- 	this.speed 		= props.speed || 15;
- 	this.dx 		= 1;
- 	this.dy 		= 1;
+ 	this.speed 		= props.speed || 60;
+ 	this.dx 		= 0;
+ 	this.dy 		= -1;
  	this.x 			= props.left;
- 	this.y 			= props.top;
+ 	this.y 			= props.bottom;
+ 	this.panelWidth = props.panelWidth;
+ 	this.panelHeight= props.panelHeight;
+ 	this.crashed 	= 0;
  	
  	var thisUfo = this;
 
@@ -26,6 +29,8 @@ function FlyingUFO(props){
  		thisUfo.$ufo.setAttribute("id",thisUfo.id);
  		thisUfo.$ufo.className = thisUfo.class;
 
+ 		updatePositionOfUFO();
+
  		thisUfo.$parent.appendChild(thisUfo.$ufo);
 
  		return thisUfo.$ufo;
@@ -34,15 +39,61 @@ function FlyingUFO(props){
  	// UPDATING THE POSITION
  	var updatePositionOfUFO = function(){
 
- 		thisUfo.$ufo.style.left = thisUfo.x;
- 		thisUfo.$ufo.style.top 	= thisUfo.y;
+ 		thisUfo.$ufo.style.left = thisUfo.x + "px";
+ 		thisUfo.$ufo.style.bottom 	= thisUfo.y + "px";
  	}
  	
  	// FLY UFO
- 	this.flyUfo = function(){
+ 	this.ufosInMotion = function(){
 
- 		thisUfo.x += thisUfo.dx * speed;
- 		thisUfo.y += thisUfo.dy * speed;
+ 		thisUfo.x += thisUfo.dx * thisUfo.speed;
+ 		thisUfo.y += thisUfo.dy * thisUfo.speed;
+
+ 		updatePositionOfUFO();
 
  	}
+
+
+ 	// GETTING UNIQUE POSITION FOR UFOS
+ 	this.getUniquePosition = function(ufos, pos){
+	
+		var newXPos = Math.floor(Math.random() * gamePanelWidth);
+		var newYPos = Math.floor(Math.random() * gamePanelWidth);
+		
+		for(var i = 0; i < ufos.length; i++){
+
+			while(i < ufos.length){
+
+				if(((Math.abs( ufos[i].x - newXPos)) < thisUfo.width ) && (Math.abs( ufos[i].y - newYPos)) < thisUfo.height){
+					
+					newXPos =  Math.floor(Math.random() * (gamePanelWidth - thisUfo.width) );
+					newYPos =  - Math.floor(Math.random() * gamePanelWidth );
+					
+				}else{					
+					break;
+				}
+			}
+		}
+
+		if(pos === "x"){
+			return newXPos;
+
+		}else{
+			return newYPos;
+		}
+
+	}
+
+	// DESTROY UFOS AFTER CRASH
+	this.destroyUfo = function(ufoCreated){
+
+		thisUfo.$parent.removeChild(thisUfo.$ufo);
+		// GETTING INDEX TO DELETE
+		var removeIndex = ufoCreated.indexOf(thisUfo);
+		
+		// DELETING FROM ARRAY
+		ufoCreated.splice(removeIndex, 1);
+
+		console.log(ufoCreated.length);
+	}
 }

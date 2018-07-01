@@ -20,6 +20,7 @@ img{
 	display: block;
 	position: absolute;
 	background-color: lightgray;
+	overflow: hidden;
 	
 }
 
@@ -40,4 +41,8 @@ img{
 	z-index: 20;
 	position: absolute;
 	border-radius: 100%;
+}
+
+.ufo{
+	position: absolute;
 }

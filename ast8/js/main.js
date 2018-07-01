@@ -2,7 +2,7 @@
 var $container = document.getElementById("container"),
 	gamePanelWidth	= 1000,
 	gamePanelHeight	= 600,
-	intervalSpeed	= 10,
+	intervalSpeed	= 100,
 	bulletid		= 0;
 	
 
@@ -24,26 +24,27 @@ function createGamePanel(){
 
 function createShooter($panelCreated){
 
-	var shooter = new Shooter({
 	
-		width 	: (gamePanelWidth / 8) - 30,
-		height 	: 100,
+
+	// CREATING LEVEL THAT CREATES UFO AS PER LEVEL
+	var level = new GameLevel({
+
+		level 	: 1,
+		ufos 	: 10,
 		parent 	: $panelCreated,
-		class 	: "shooter",
-		id 		: "shooter",
-		background : "green",
-		left 	   : (gamePanelWidth / 8) * 4 - 62,
-		parentHeight : gamePanelHeight,
-		parentWidth  : gamePanelWidth
-
+		speed 	: 2,
+		ufoLife : 2
 	});
+	
+	var shooter = level.createShooter();
+	var ufos 	= level.createUfos();
 
-	var shooterCreated = shooter.initShooter();
-
+	// SETTING INTERVAL FOR GAME
 	var gamePlaying = setInterval(function(){
 
-		//shooter.updateNewPosition();
-		shooter.checkWallCollision();
+		level.checkCollision(shooter);
+
+		level.flyUfo();
 
 		document.onkeydown = function(){
 
@@ -52,21 +53,8 @@ function createShooter($panelCreated){
 
 			shooter.checKeyPressed(keyPressedCode);	
 		}
-				
-		
+	
 	},intervalSpeed);
 }
-
-
-function checkKeycode(event) {
-
-    // EVENT HANDLING 
-    var keyDownEvent 	= event || window.event,
-        keyPressedCode 	= (keyDownEvent.which) ? keyDownEvent.which : keyDownEvent.keyCode;
-        alert(keyPressedCode);
-    //return false;
-}
-
- checkKeycode;
 
 createGamePanel();
