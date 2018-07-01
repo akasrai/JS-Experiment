@@ -8,7 +8,7 @@ function FlyingUFO(props){
  	this.$parent = props.parent;
  	this.background = props.background || "yellow";
  	this.speed 		= props.speed || 60;
- 	this.dx 		= 0;
+ 	this.dx 		= props.dx;
  	this.dy 		= -1;
  	this.x 			= props.left;
  	this.y 			= props.bottom;
@@ -97,7 +97,7 @@ function FlyingUFO(props){
 		// DELETING FROM ARRAY
 		ufoCreated.splice(removeIndex, 1);
 
-		console.log(ufoCreated.length);
+		// console.log(ufoCreated.length);
 	
 	}
 
@@ -106,5 +106,14 @@ function FlyingUFO(props){
 
 		thisUfo.$parent.removeChild(thisUfo.$ufo);
 
+	}
+
+	// UFOS WALL COLLISION
+	this.ufoWallCollision = function(){
+
+		if((thisUfo.x + thisUfo.width) >= gamePanelWidth || thisUfo.x <= 0){
+ 
+ 			thisUfo.dx = -(thisUfo.dx);
+ 		} 
 	}
 }

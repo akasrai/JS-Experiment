@@ -183,6 +183,7 @@
  		thisShooter.$shooter.style.backgroundImage	= "url(images/fire2.gif)";
  		var timeoutID = window.setTimeout(removeShooter, 400);	
 
+ 		wasted();
  	}
 
  	// REMOVE DIV OF SHOOTER ONCE ITS DESTROYED
@@ -195,5 +196,11 @@
 	var changeBackground = function(){
 
 		thisShooter.$shooter.style.backgroundImage	= "url("+thisShooter.background+")";		
+	}
+
+	// GAMEOVER AFTER SHOOTER IS DEAD
+	var wasted = function(){
+
+		// alert("wasted");
 	}
  }

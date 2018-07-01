@@ -22,6 +22,7 @@ function GamePanel(props){
 	this.$playButton = document.createElement("div");
 	this.$controlPanel = document.createElement("div");
 	this.$pauseButton = document.createElement("div");
+	this.$scorePanel = document.createElement("div");
 
 	this.initGamePanel = function(){
 
@@ -106,8 +107,6 @@ function GamePanel(props){
 		thisPanel.$pauseButton.setAttribute("id","pausebutton");
 		thisPanel.$pauseButton.className= "pause-buttom";
 		thisPanel.$pauseButton.style.padding= "10px";
-		thisPanel.$pauseButton.style.right= "50px";
-		thisPanel.$pauseButton.style.top= "20px";
 		thisPanel.$pauseButton.style.backgroundImage = "url(images/pause.png)";
 		
 		thisPanel.$controlPanel.appendChild(thisPanel.$pauseButton);
@@ -127,5 +126,21 @@ function GamePanel(props){
 		clearInterval(infinityBg);
 			
 	}
+	
+	// SCORE PANEL ON TOP
+	this.scorePanel = function(){
 
+		thisPanel.$scorePanel.setAttribute("id","scorepanel");
+		thisPanel.$scorePanel.className = "score-panel";
+
+		thisPanel.$controlPanel.appendChild(thisPanel.$scorePanel);
+
+		return thisPanel.$scorePanel;
+	}
+
+	// UPDATE POINTS IN SCORE PANEL
+	// this.updatScore = function(){
+
+	// 	thisPanel.$scorePanel.innerHTML = thisPanel.score;
+	// }
 }

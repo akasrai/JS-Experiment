@@ -46,8 +46,9 @@ function setLevel($panelCreated, gamePanel){
 	// ADDING CONTROL PANEL ON THE TOP
 	var $controlpanel = gamePanel.addControlPanel();
 
-	// AD PAUSE BUTTON
-	var $pause = gamePanel.pauseButton();
+	// ADD PAUSE BUTTON // SCORE PANEL
+	var $pause 		= gamePanel.pauseButton();
+	var $scorepanel = gamePanel.scorePanel();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// CREATING LEVEL THAT CREATES UFO AS PER LEVEL
@@ -57,11 +58,26 @@ function setLevel($panelCreated, gamePanel){
 		ufos 	: 50,
 		parent 	: $panelCreated,
 		speed 	: 5,
-		ufoLife : 2
+		ufoLife : 1,
+		point 	: 2
+
 	});
-	
+
+	var level2 = new GameLevel({
+
+		level 	: 2,
+		ufos 	: 50,
+		parent 	: $panelCreated,
+		speed 	: 10,
+		ufoLife : 2,
+		point 	: 3
+
+	});
+
 	var shooter = level.createShooter();
 	var ufos 	= level.createUfos();
+	var scoreCounter = level.scorePanelInitialise($scorepanel);
+						level.gameScore();
 
 	backgroundMusic = new GameSound("sound/bg.mp3");
 	backgroundMusic.play();

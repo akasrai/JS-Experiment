@@ -6,7 +6,8 @@ function GameLevel(props){
 	this.speed 	 = props.speed;
 	this.$parent  = props.parent;
 	this.ufoLife  = props.ufoLife;
-	 
+	this.point 	  = props.point || 1;	 
+	
 	// STORES THE UFOS CREATED DATA
 	var ufoCreated = [];
 
@@ -15,6 +16,15 @@ function GameLevel(props){
 
 	// TO CREATE OBJECT OF GAME LEVEL
 	var shooter;
+
+	// SCORE COUNTER AND SCORE PANEL DOM CARRIER
+	var gameScore = 0,
+		scorePanel = null,
+		gameKills = 0,
+		distance = 0;
+
+	// TYPES OF UFOS
+ 	var ufoAvatar = ['v2','v3','v5','v6'];
 
 	var thisGame = this;
 
@@ -42,10 +52,14 @@ function GameLevel(props){
 	// CREATING UFOS USING FlyingUFO CLASS
 	this.createUfos = function(){
 
-		var ufoRow = 0;
-		var ufoHeight = gamePanelHeight;
-		
+		var ufoRow = 0,
+			ufoHeight = gamePanelHeight,
+			ramdomAvatar = 0,
+			dxX = ['1','0','-1'];
+
 		for(var i = 0; i < thisGame.ufos; i++){
+
+			ramdomAvatar = Math.floor(Math.random() * ufoAvatar.length);
 
 			ufoCreated[i] = new FlyingUFO({
 
@@ -56,7 +70,8 @@ function GameLevel(props){
 				bottom 		: ufoHeight,
 				parent 		: thisGame.$parent,
 				speed 		: thisGame.speed,
-				background	: "images/v6.png"
+				background	: "images/"+ufoAvatar[ramdomAvatar]+".png",
+				dx			: (thisGame.level > 1) ? dxX[Math.floor(Math.random() * dxX.length)] : 0
 
 			});
 
@@ -70,7 +85,13 @@ function GameLevel(props){
 				ufoRow ++;
 			}else{
 				ufoRow = 0;
-				ufoHeight += 200;
+				if(thisGame.level > 2){
+		
+					ufoHeight += 600;
+				}else{
+		
+					ufoHeight += 300;
+				}
 			}
 		}
 		
@@ -94,6 +115,12 @@ function GameLevel(props){
 
 		// CHECKING THE BOUNDRY COLLISION OF SHOOTER AND WALL AND GETS ITS X POS
 		shooterX = shooter.checkWallCollision();
+
+		// CHECK UFOS WALL COLLISION
+		ufoCreated.forEach(function(ufo){
+
+			ufo.ufoWallCollision();
+		});
 
 		// CHECK IF UFO HITS SHOOTER
 		checkUfoHitShooter();
@@ -131,6 +158,11 @@ function GameLevel(props){
 				   			bulletsFired[i].destroyBullet();
 							ufoCreated[j].destroyUfo(ufoCreated);
 
+							// COUNTING SCORE
+							gameScore += thisGame.point;
+							gameKills ++;
+							thisGame.gameScore();
+
 				   		}else{
 
 				   			ufoCreated[j].crashed += 1;
@@ -164,4 +196,19 @@ function GameLevel(props){
 			}
 		}	
 	}
+
+	// GET SCORE PANEL FROM GAME PANEL
+	this.scorePanelInitialise = function($scorepanel){
+
+		scorePanel = $scorepanel;
+		return scorePanel;
+	}
+
+	// UPDATE SCORE ON THE TOP
+	this.gameScore = function(){
+
+		scorePanel.innerHTML = "<p>SCORE : "+gameScore+"</p><p>KILLS : "+gameKills+"</p>";
+		
+	}
+
 }
