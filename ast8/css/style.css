@@ -88,17 +88,16 @@ body{
 }
 
 .button-for-all{
-
-	position: absolute;
-	
+	width:300px;
+	position: relative;
 	background-color: rgba(9, 12,12, 0.66);
 	border-radius: 10px;
-
+	margin: 20px auto;
 }
 
 .button-for-all p{
 	/*margin: 0px auto;*/
-	padding: 17px 30px;
+	padding: 17px 20px;
 	width:auto;
 	color:lightgray;
 }
@@ -173,4 +172,30 @@ body{
 	background-color: rgba(15, 78,132, 0.68);
 	border-radius: 10px;
 	float: right
+}
+
+.game-over-panel{
+
+	position: absolute;
+	margin: 0 auto;
+	top:25%;
+	left:32.5%;
+	padding: 80px 0px 80px 0px;
+}
+
+.game-over-panel h1{
+	font-family: impact;
+	font-size: 35px;
+	color:lightgray;
+	text-align: center;
+	font-weight: normal;
+	line-height: 50px;
+}
+
+.game-over-panel p{
+	font-family: arial;
+	font-size: 20px;
+	color:lightgray;
+	text-align: center;
+	font-weight: normal;
 }

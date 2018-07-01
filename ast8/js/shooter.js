@@ -7,7 +7,7 @@
  	this.id 	= props.id || "shooter";
  	this.$parent = props.parent;
  	this.background = props.background;
- 	this.speed 		= props.speed || 10;
+ 	this.speed 		= props.speed || 20;
  	this.dx 		= 0;
  	this.dy 		= 0;
  	this.x 			= props.left || 50;
@@ -181,9 +181,12 @@
  	this.destroyShooter = function(){
 
  		thisShooter.$shooter.style.backgroundImage	= "url(images/fire2.gif)";
+ 		// EXPLOSION SOUND FOR CRASH
+		var explode = new GameSound("sound/explode1.mp3");
+			explode.play();
  		var timeoutID = window.setTimeout(removeShooter, 400);	
 
- 		wasted();
+ 		return thisShooter;
  	}
 
  	// REMOVE DIV OF SHOOTER ONCE ITS DESTROYED
@@ -198,9 +201,5 @@
 		thisShooter.$shooter.style.backgroundImage	= "url("+thisShooter.background+")";		
 	}
 
-	// GAMEOVER AFTER SHOOTER IS DEAD
-	var wasted = function(){
-
-		// alert("wasted");
-	}
+	
  }
