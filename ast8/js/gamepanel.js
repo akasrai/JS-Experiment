@@ -12,7 +12,7 @@ function GamePanel(props){
 	this.$background = props.backgroundParent;
 	this.scrollY	 = -1;
 	this.backgroundY = 0;
-	this.scrollSpeed = props.scrollSpeed || 15;
+	this.scrollSpeed = props.scrollSpeed || 10;
  	
 	var thisPanel = this;
 	var infinityBg;
@@ -54,7 +54,7 @@ function GamePanel(props){
 				thisPanel.backgroundY = gamePanelHeight;
 			}
 
-		},100);
+		},80);
 		
 	}
 
