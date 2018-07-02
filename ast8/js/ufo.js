@@ -87,7 +87,7 @@ function FlyingUFO(props){
 	// DESTROY UFOS AFTER CRASH
 	this.destroyUfo = function(ufoCreated){
 
-		thisUfo.$ufo.style.backgroundImage	= "url(images/fire2.gif)";
+		thisUfo.$ufo.style.backgroundImage	= "url(images/blast.gif)";
 		
 		var timeoutID = window.setTimeout(removeUfo, 200);
 
