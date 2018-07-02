@@ -1,10 +1,10 @@
 
 // var $container 		= document.getElementById("container");
-var containerWidth 	= 1000;
-var containerHeight	= 500;
+var containerWidth 	= 1300;
+var containerHeight	= 700;
 var classname		= "gamepanel";
-var ballWidth		= 30;
-var ballHeight		= 30;
+var ballWidth		= 10;
+var ballHeight		= 10;
 var score			= 0;
 var numberOfBalls	= 20;
 
@@ -86,7 +86,7 @@ function startGame(){
 	}, 50);
 	
 	
-	backgroundMusic = new GameSound("sound/bgmusic.ogg");
-	backgroundMusic.play();
+	// backgroundMusic = new GameSound("sound/bgmusic.ogg");
+	// backgroundMusic.play();
 }
 startGame();
