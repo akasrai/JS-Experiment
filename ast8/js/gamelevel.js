@@ -160,7 +160,7 @@ function GameLevel(props){
 							ufoCreated[j].destroyUfo(ufoCreated);
 
 							// BLAST SOUND
-							var explode = new GameSound("../sound/explode3.mp3");
+							var explode = new GameSound("../ast8/sound/explode3.mp3");
 							explode.play();
 						
 							// COUNTING SCORE

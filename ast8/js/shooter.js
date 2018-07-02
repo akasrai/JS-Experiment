@@ -141,7 +141,7 @@
 
 	     	firedbullet[bulletcount].initBullet();
 
-	     	destroyedSound = new GameSound("../sound/gun.mp3");
+	     	destroyedSound = new GameSound("../ast8/sound/gun.mp3");
 			destroyedSound.play();
 	     	bulletcount++;
 
@@ -204,7 +204,7 @@
 
  		thisShooter.$shooter.style.backgroundImage	= "url(images/fire2.gif)";
  		// EXPLOSION SOUND FOR CRASH
-		var explode = new GameSound("../sound/explode1.mp3");
+		var explode = new GameSound("../ast8/sound/explode1.mp3");
 			explode.play();
  		var timeoutID = window.setTimeout(removeShooter, 400);	
 
