@@ -12,7 +12,8 @@ var $container = document.getElementById("container"),
 	shooterDestroyed = false,
 	$panelCreated,
 	gamePanel,
-	backgroundMusic;
+	backgroundMusic,
+	shooter;
 
 	
 
@@ -59,7 +60,7 @@ function setLevel(resetPanel){
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// CREATING LEVEL THAT CREATES UFO AS PER LEVEL
-	var level = new GameLevel({
+	var level1 = new GameLevel({
 
 		level 	: 1,
 		ufos 	: 50,
@@ -70,7 +71,7 @@ function setLevel(resetPanel){
 
 	});
 
-	var level1 = new GameLevel({
+	var level = new GameLevel({
 
 		level 	: 2,
 		ufos 	: 100,
@@ -125,6 +126,8 @@ function playGame(level, shooter){
 		// FLIES THE UFO 
 		level.flyUfo();
 
+		shooter.fireBullet();
+
 		document.onkeydown = function(){
 	
 			var keyDownEvent 	= event || window.event,
@@ -175,14 +178,14 @@ function gameOver(level){
 
 	$restart.onclick = function(){
 
-		level.destroyAllUfos();
+		level.destroyAllUfosAndBullet();
 
 		setLevel(gameover);
 	}
 
 	$exit.onclick = function(){
 
-		level.destroyAllUfos();
+		level.destroyAllUfosAndBullet();
 		gameover.removePanel();
 		gamePanel.removePanel();
 		gamePanel.removeControlPanel();

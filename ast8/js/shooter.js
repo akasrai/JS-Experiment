@@ -133,13 +133,14 @@
 	    		parent 	: thisShooter.$shooter,
 	    		parentOfParent : thisShooter.$parent,
 	    		left 	: 35,
-	    		bottom  : thisShooter.y+20,
+	    		bottom  : thisShooter.y+thisShooter.height,
 	    		parentHeight : thisShooter.parentHeight,
 	    		parentWidth : thisShooter.parentWidth,
 	    		parentX	: thisShooter.x
 	    	});
 
 	     	firedbullet[bulletcount].initBullet();
+
 	     	destroyedSound = new GameSound("sound/gun.mp3");
 			destroyedSound.play();
 	     	bulletcount++;
@@ -150,6 +151,27 @@
 	      
 	        break;
 	    }
+ 	}
+
+ 	// BULLET IS FIRED HERE
+ 	this.fireBullet = function(){
+
+ 		firedbullet.forEach(function(bullet){
+
+ 			if(typeof bullet !== "undefined"){
+ 			
+ 				bullet.fireBullet();
+ 			}
+		});
+ 	}
+
+ 	// DESTROY BULLET AFTER GAME IS OVER
+ 	this.destroyBullets = function(){
+
+ 		firedbullet.forEach(function(bullet){
+
+ 			bullet.destroyBullet();
+		});
  	}
 
  	// RETURN THE BULLETS FIRED TO ACCESS FOR OTHER CLASSES

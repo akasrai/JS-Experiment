@@ -7,7 +7,7 @@ function Bullet(props){
  	this.id 	= props.id || "bullet";
  	this.$parent = props.parent;
  	this.background = props.background || "images/bullet.png";
- 	this.speed 		= props.speed || 20;
+ 	this.speed 		= props.speed || 30;
  	this.dy 		= 1;
  	this.x 			= props.left;
  	this.y 			= props.bottom;
@@ -20,7 +20,7 @@ function Bullet(props){
 
  	this.$bullet = document.createElement("div");
 
- 	this.initBullet = function(bullet){
+ 	this.initBullet = function(){
 
  		thisBullet.$bullet.style.width 		= thisBullet.width + "px";
  		thisBullet.$bullet.style.height 	= thisBullet.height + "px";
@@ -34,12 +34,12 @@ function Bullet(props){
  		thisBullet.$parent.appendChild(thisBullet.$bullet);
 
  		// TO MOVE THE BULLET
- 		fireBullet(bullet);
+ 		// fireBullet();
 
  		return thisBullet.$bullet;
  	}
 
- 	var updateBulletPosition = function(bullet){
+ 	var updateBulletPosition = function(){
 
  		// ADDING SHOOTERS X POSITION TO MAKE IT FLY ON SAME POSITION OF SHOOTERS PARENT
  		thisBullet.$bullet.style.left 	= thisBullet.x + thisBullet.parentX + "px";
@@ -58,25 +58,25 @@ function Bullet(props){
 		
  	}
 
- 	var fireBullet = function(bullet){
+ 	this.fireBullet = function(){
 
- 		var firedBullet = setInterval(function(){
+ 		// var firedBullet = setInterval(function(){
 
- 			updateBulletPosition(bullet);
+ 			updateBulletPosition();
 
- 			if(thisBullet.y > (thisBullet.parentHeight + 100)){
+ 		// 	if(thisBullet.y > (thisBullet.parentHeight + 100)){
  				
- 				clearInterval(firedBullet);
- 				return false;
- 			}
+ 		// 		clearInterval(firedBullet);
+ 		// 		return false;
+ 		// 	}
 
- 		},10)
+ 		// },10)
  		
  	}
 
  	this.destroyBullet = function(){
  		
-	 	if (typeof thisBullet.$bullet !== 'undefined'){
+	 	if (thisBullet.$bullet.parentNode == thisBullet.$parentOfParent){
 
 	 		thisBullet.$bullet.style.backgroundImage = "url(images/fire2.gif)";
 	 		thisBullet.$bullet.style.display = "none";

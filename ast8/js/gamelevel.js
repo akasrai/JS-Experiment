@@ -147,8 +147,8 @@ function GameLevel(props){
 
 				    var bulletY = bulletsFired[i].y + bulletsFired[i].height,
 				    	ufoY	= ufoCreated[j].y + ufoCreated[j].height,
-				    	bulletX = Math.abs((bulletsFired[i].x + bulletsFired[i].parentX) - ufoCreated[j].x),
-				    	bulletW = Math.abs(bulletsFired[i].width + 50);
+				    	bulletX = Math.abs((bulletsFired[i].x + bulletsFired[i].parentX - 20) - ufoCreated[j].x),
+				    	bulletW = Math.abs(bulletsFired[i].width + 20);
 
 					
 				   	// DESTROY THE BULLETS AND UFO IF BULLET HITS UFO
@@ -207,7 +207,7 @@ function GameLevel(props){
 	}
 
 	// DESTROY ALL PREVIOUS UFOS AFTER RESTARTING GAME
-	this.destroyAllUfos = function(){
+	this.destroyAllUfosAndBullet = function(){
 
 		ufoCreated.forEach(function(ufo){
 
@@ -215,6 +215,9 @@ function GameLevel(props){
 		});
 
 		ufoCreated = [];
+
+		// DESTROY BULLET ONCE GAME IS
+		shooter.destroyBullets();
 	}
 
 	// GET SCORE PANEL FROM GAME PANEL

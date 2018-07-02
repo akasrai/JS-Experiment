@@ -74,7 +74,7 @@ body{
 }
 
 .bullet{
-	z-index: 20;
+	z-index: 0;
 	position: absolute;
 	border-radius: 100%;
 	background-repeat: no-repeat;
