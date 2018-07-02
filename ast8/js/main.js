@@ -87,7 +87,7 @@ function setLevel(resetPanel){
 	var scoreCounter = level.scorePanelInitialise($scorepanel);
 					   level.gameScore();		  
 
-	backgroundMusic = new GameSound("../ast8/sound/bg.mp3");
+	backgroundMusic = new GameSound("sound/bg.mp3");
 	backgroundMusic.play();
 
 	$pause.onclick = function(){

@@ -133,7 +133,7 @@ function Ball(props){
 	// PUBLIC CHECKING INTER COLLISION
 	this.checkInterCollision = function(){
 
-		for(var i = 0; i < balls.length; i++){
+		for(var i = 0; i < balls.length - 1; i++){
 
 			for(var j = i+1; j < balls.length; j++ ){
 				
