@@ -1,10 +1,10 @@
 
 // var $container 		= document.getElementById("container");
-var containerWidth 	= 1300;
-var containerHeight	= 700;
+var containerWidth 	= 1000;
+var containerHeight	= 500;
 var classname		= "gamepanel";
-var ballWidth		= 10;
-var ballHeight		= 10;
+var ballWidth		= 30;
+var ballHeight		= 30;
 var score			= 0;
 var numberOfBalls	= 20;
 
