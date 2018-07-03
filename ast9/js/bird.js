@@ -1,0 +1,139 @@
+'use strict';
+
+class FlappyBird{
+
+	constructor( props ){
+		this.width 		= props.width || 45;
+		this.height 	= props.height || 45;
+		this.background = props.background || 40;
+		this.$parent 	= props.parent;
+		this.class 		= props.class;
+		this.id			= props.id;
+		this.left 	 	= props.left || 200;
+		this.top 	 	= props.top || 200;
+		this.speed 		= 5;
+		this.dy			= -1;
+		this.timeCount 	= 10;
+		this.deg 		= 0;
+		this.life		= 1;
+		this.$bird = document.createElement("div");
+
+	}
+
+	// INITIALISE BIRD
+	initBird(){
+
+		this.$bird.style.width 	= this.width + "px";
+		this.$bird.style.height = this.height + "px";
+		this.$bird.style.left 	= this.left + "px";
+		this.$bird.style.top 	= this.top + "px";
+		this.$bird.style.backgroundImage = "url("+ this.background +")";
+		this.$bird.setAttribute("id",this.id);
+		this.$bird.className = this.class;
+
+		this.$parent.appendChild(this.$bird);
+
+		return this.$bird;
+	}
+
+	// BIRD UPDATE Y POSITION
+	updateBirdPosition(){
+
+		if(this.timeCount > 0){
+		 	
+		 	this.dy = -1;
+		 	this.speed = 5;
+		 	this.timeCount--;
+
+
+		}else if( this.dy === 0){
+
+			this.dy = 0;
+		}else if(this.dy === 2){
+
+			if(this.top >= ( this.$parent.clientHeight - 150 )){
+				this.dy = 0;
+			}
+
+		}else{
+
+			this.speed += 0.2;
+			this.dy = 1;
+			(this.deg >= 90) ? this.deg = 90  : this.deg -= -7;
+
+		}
+		
+
+		this.top += this.dy * this.speed;
+
+	}
+
+	// BIRD MOVE POSITION
+	birdFlyBird(){
+
+		this.updateBirdPosition();
+		this.$bird.style.top = this.top + "px";
+		this.setBirdImage();
+	}
+
+	// BIRD TOP BOTTOM COLLISION
+	birdBoundryCollision(){
+
+		if(this.top >= ( this.$parent.clientHeight - 150 )){
+ 
+			this.dy = 0;
+			this.destroyBird();  
+		}
+
+		if(this.top <= 0){
+
+			this.destroyBird();
+		}
+	}
+
+	// FLYING BIRD UPWARDS WITH KEY
+	flyBirdUpwards(keyCode){
+
+		let FLY 	= 32;
+
+	    switch (keyCode) {
+
+	    	case FLY:
+
+				this.timeCount = 10;
+				this.deg       = -35;
+	    		break;
+	    	
+	    	default:
+	      
+	        	break;
+		}
+	}
+
+	// CHANGE BIRD ACCORDING TO THE DIRECTION
+	setBirdImage(){
+
+		if(this.dy === -1){
+			
+			this.$bird.style.webkitTransform = 'rotate('+ this.deg +'deg)'; 
+			this.$bird.style.backgroundImage = "url(images/flappy.gif)";
+			
+		}else if(this.dy === 1){
+
+			this.$bird.style.webkitTransform = 'rotate('+ this.deg +'deg)'; 
+			this.$bird.style.backgroundImage = "url(images/redbird-midflap.png)";
+		}
+	}
+
+	// DESTROY BIRD IF IT STRIKE TO THE POLE
+	destroyBird(){
+
+		this.$bird.style.webkitTransform = 'rotate(90deg)'; 
+		this.$bird.style.backgroundImage = "url(images/redbird-downflap.png)";	
+		
+		this.dy = 2;
+		this.life = 0;
+			
+	} 
+
+}
