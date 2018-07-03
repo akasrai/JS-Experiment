@@ -113,6 +113,8 @@ document.onkeydown = function(){
 	if(keyPressedCode === 32 && play === 0){
 
 		animateGame();
+		let backgroundMusic = new GameSound("sound/bgmusic.ogg");
+		backgroundMusic.play();
 		play = 1;
 	}
 }

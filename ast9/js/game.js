@@ -68,12 +68,16 @@ class Game{
 					
 					bird.destroyBird();
 					returnvalue = 0;
+					let end = new GameSound("sound/end.mp3");
+						end.play();
 
 				}
 				if(obstacle.height >= (bird.top-bird.speed) && obstacle.posY === -1){
 
 					bird.destroyBird();
 					returnvalue = 0;
+					let end = new GameSound("sound/end.mp3");
+						end.play();
 				}
 			}
 		});
