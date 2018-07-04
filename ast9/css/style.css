@@ -29,6 +29,19 @@ body{
 	/*background-color: lightgray;*/
 	margin: 40px 0px 0px 0px;
 	font-family: '04b_19';
+	position: relative;
+}
+
+.frame{
+	width:740px;
+	height:550px;
+	background-color: transparent;
+	background-image: url("../images/frame.png");
+	background-repeat:no-repeat;
+	background-size: 100% 100%;
+	position: absolute;
+	
+	z-index: 200;
 }
 
 .bg-panel{
@@ -75,7 +88,7 @@ body{
 	text-align: center;
 	font-size: 30px;
 	text-shadow:0px 0px 8px #000;
-	margin-top:35%;	
+	margin-top:33%;	
 }
 .bird-design{
 	position: absolute;

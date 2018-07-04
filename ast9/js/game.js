@@ -51,8 +51,9 @@ class Game{
 					// DESTROY OBJECT FROM ARRAY
 					// let removIindex = this.obstacles.indexOf(this.obstacle);
 					// console.log(obstacle.posX)
-					// this.obstacles.splice(removIindex,1);
+					this.obstacles.shift();
 					obstacle.destroyObstacle();
+					// console.log(this.obstacles);
 				}
 			}
 			return this.obstacles;
@@ -63,7 +64,7 @@ class Game{
 	}
 
 	// CHECK IF BIRD HITS OBSTACLES
-	checkObstacleCollision(bird){
+	checkObstacleCollision(bird, gamePanel){
 
 		let returnvalue = 1;
 
@@ -83,8 +84,20 @@ class Game{
 					returnvalue = 0;
 					let end = new GameSound("sound/end.mp3");
 						end.play();
+				
+				}else{
+					
+					if( (obstacle.posX + obstacle.width < bird.left + (obstacle.speed * 2)) && obstacle.passed === 0){
+
+						this.score += 1;
+						obstacle.passed = 1;
+						// SHOW SCORE IN PANEL
+						gamePanel.showScore(this.score);
+
+					}
 				}
 			}
+
 		}.bind(this));
 
 		return returnvalue;
@@ -101,5 +114,11 @@ class Game{
 
 		this.obstacles = [];
 		return 1;
+	}
+
+	// RESET SCORE
+	resetScore(){
+
+		this.score = 0;
 	}
 }

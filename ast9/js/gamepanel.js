@@ -13,6 +13,7 @@ class GamePanel{
 		this.speed 		= 6;
 		this.dx			= -1;
 		this.$gamePanel = document.createElement("div");
+		this.lastScore = 0;
 	
 	}
 
@@ -59,7 +60,7 @@ class GamePanel{
 	// GAME OVER TEXT
 	gameOverText(){
 
-		this.$gamePanel.innerHTML = "<h1 style='margin-top:30%;'>GAME OVER</h1>";
+		this.$gamePanel.innerHTML = "<p>Your score is "+ this.lastScore +"</p><h1>GAME OVER</h1>";
 		return 1;
 	}
 
@@ -69,4 +70,11 @@ class GamePanel{
 		this.$parent.removeChild(this.$gamePanel);
 	}
 	
+	// SHOW SCORES 
+	showScore(score){
+
+		this.lastScore = score;
+		this.$gamePanel.innerHTML = "<h1 style='margin-top:30%;'>" +this.lastScore + "<h1>"
+
+	}
 }

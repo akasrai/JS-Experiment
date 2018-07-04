@@ -14,6 +14,7 @@ class Obstacle{
 		this.posY 	 	= props.posY || 200;
 		this.speed 		= 6;
 		this.dx			= -1;
+		this.passed		= 0; // TO CHECK IF THE BIRD PASSES THE OBSTACLE< RETURN 1 IF PASSED
 		
 		this.$obstacle = document.createElement("div");
 	}
