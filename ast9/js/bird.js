@@ -11,9 +11,9 @@ class FlappyBird{
 		this.id			= props.id;
 		this.left 	 	= props.left || 200;
 		this.top 	 	= props.top || 200;
-		this.speed 		= 5;
+		this.speed 		= 8;
 		this.dy			= -1;
-		this.timeCount 	= 10;
+		this.timeCount 	= 6;
 		this.deg 		= 0;
 		this.life		= 1;
 		this.$bird = document.createElement("div");
@@ -42,20 +42,23 @@ class FlappyBird{
 		if(this.timeCount > 0){
 		 	
 		 	this.dy = -1;
-		 	this.speed = 5;
+		 	this.speed = 8;
 		 	this.timeCount--;
+		 	(this.deg <= -35) ? this.deg = -35 : this.deg -= 10;
 
-
-		}else if( this.dy === 0){
+		}
+		else if( this.dy === 0){
 
 			this.dy = 0;
+			
 		}else if(this.dy === 2){
 
 			if(this.top >= ( this.$parent.clientHeight - 150 )){
 				this.dy = 0;
 			}
 
-		}else{
+		}
+		else{
 
 			this.speed += 0.2;
 			this.dy = 1;
@@ -101,7 +104,7 @@ class FlappyBird{
 	    	case FLY:
 
 				this.timeCount = 10;
-				this.deg       = -35;
+				// this.deg       = -35;
 	    		break;
 	    	
 	    	default:
@@ -136,4 +139,9 @@ class FlappyBird{
 			
 	} 
 
+	// RESET BIRD
+	resetBird(){
+
+		this.$parent.removeChild(this.$bird);
+	}
 }

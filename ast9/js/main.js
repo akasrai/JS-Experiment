@@ -5,12 +5,15 @@ const $container = document.getElementById("container");
 
 let panelWidth = 700,
 	panelHeight = 550,
-	animationId,
+	animationId = null,
 	gamePanel,
 	bird,
 	play = 0,
 	obstaclesInterval = 0,
-	$bgPanel;
+	$bgPanel,
+	createBgPanel,
+	restart = 0,
+	backgroundMusic;
 
 
 ///////////////////////////////////- PANEL CREATION -/////////////////////////////////
@@ -18,7 +21,7 @@ let panelWidth = 700,
 const createPanel = () =>{
 
 	//////////////////////////// - GAME PANEL CREATION - /////////////////////////
-	let createBgPanel = new GamePanel({
+	createBgPanel = new GamePanel({
 
 		width		: panelWidth,
 		height		: panelHeight,
@@ -43,7 +46,7 @@ const createPanel = () =>{
 	});
 
 	gamePanel.initPanel();
-
+	gamePanel.addGamePanelText();
 ///////////////////////////- CREATING BIRD OBJECT -///////////////////////////////////
 	
 	bird = new FlappyBird({
@@ -71,6 +74,19 @@ createPanel();
 
 function animateGame(){
  
+	// INVOKING THE SAME FUNCTON FOR REPEATED ANIMATION
+  	// if(!(play=== 0)){
+  	if(!(play=== 0 && bird.top  >= ( panelHeight - 150 ))){
+
+  		animationId = requestAnimationFrame(animateGame);
+  		
+	}else{
+
+		restart = gamePanel.gameOverText();
+		backgroundMusic = new GameSound("sound/bgmusic.ogg");
+		backgroundMusic.stop();
+	}
+
 	gamePanel.animateBg();
 	bird.birdFlyBird();
 	bird.birdBoundryCollision();
@@ -85,15 +101,6 @@ function animateGame(){
 	game.moveObstacles();
 	play = game.checkObstacleCollision(bird);
 	
-
-	// INVOKING THE SAME FUNCTON FOR REPEATED ANIMATION
-  	animationId = requestAnimationFrame(animateGame);
-
-  	if(play === 0 && bird.top  >= ( panelHeight - 150 )){
-
-		cancelAnimationFrame(animationId);
-	}
-
   	obstaclesInterval++;
 }
 
@@ -110,11 +117,30 @@ document.onkeydown = function(){
 		bird.flyBirdUpwards(keyPressedCode);
 	}
 
-	if(keyPressedCode === 32 && play === 0){
-
-		animateGame();
-		let backgroundMusic = new GameSound("sound/bgmusic.ogg");
+	if(keyPressedCode == 32 && play == 0){
+		
+		backgroundMusic = new GameSound("sound/bgmusic.ogg");
 		backgroundMusic.play();
+
+		if(restart === 1){
+
+			bird.resetBird();
+			game.resetObstacles();
+			gamePanel.removeGamePanelText();
+			gamePanel.resetPanel();
+			gamePanel.initPanel();
+			
+			bird.top = 200;
+			bird.dy  = -1;
+			bird.timeCount = 6;
+			bird.life = 1;
+			bird.initBird();	
+			
+			restart = 0;
+		}
+
+		gamePanel.removeGamePanelText();
 		play = 1;
+		animateGame();
 	}
 }

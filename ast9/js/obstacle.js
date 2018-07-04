@@ -63,7 +63,7 @@ class Obstacle{
 
 		if(this.$obstacle.parentNode == this.$parent){
 		
-			this.$parent.removeChild(this.$obstacle);
+			this.$parent.removeChild(this.$obstacle);	
 		}
 	}
 }

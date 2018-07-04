@@ -7,6 +7,7 @@ class Game{
 		this.obstacles = [];
 		this.obstacleCount = 0;
 		this.topOrBottom = [1,-1];
+		this.score = 0;
 	}
 
 	// FUNCTION TO CREATE OBSTACLES
@@ -37,17 +38,27 @@ class Game{
 	// MOVE OBSTACLE BY INVOKING FUNCTION IN OBSTACLE CLASS
 	moveObstacles(){
 
+		
+
 		this.obstacles.forEach(function(obstacle){
 
 			obstacle.moveObstacle();
 
-			// IF IT CROSSES -70 IN x POSITION DESTRY IT
-			if(obstacle.posX <= 90){
+			if(typeof obstacle !== "undefined"){
+				// IF IT CROSSES -70 IN x POSITION DESTRY IT
+				if(obstacle.posX <= -100){
 
-				obstacle.destroyObstacle();
-			
+					// DESTROY OBJECT FROM ARRAY
+					// let removIindex = this.obstacles.indexOf(this.obstacle);
+					// console.log(obstacle.posX)
+					// this.obstacles.splice(removIindex,1);
+					obstacle.destroyObstacle();
+				}
 			}
-		});
+			return this.obstacles;
+
+		// BIND this TO ACCESS this OBJECT IN SUCH FUNCTION OR ASSIGN THIS TO NEW VARIABLE
+		}.bind(this));
 
 	}
 
@@ -55,7 +66,9 @@ class Game{
 	checkObstacleCollision(bird){
 
 		let returnvalue = 1;
+
 		this.obstacles.forEach(function(obstacle){
+			
 			let birdXright  = bird.left + bird.width - bird.speed,
 				birdXleft 	= bird.left - (bird.width + bird.speed),
 
@@ -64,25 +77,29 @@ class Game{
 
 			if(obstacle.posX <= birdXright && obstacle.posX >= birdXleft){
 
-				if(birdY > obstacleY && obstacle.posY === 1){
+				if((birdY > obstacleY && obstacle.posY === 1) || (obstacle.height >= (bird.top-bird.speed) && obstacle.posY === -1)){
 					
-					bird.destroyBird();
-					returnvalue = 0;
-					let end = new GameSound("sound/end.mp3");
-						end.play();
-
-				}
-				if(obstacle.height >= (bird.top-bird.speed) && obstacle.posY === -1){
-
 					bird.destroyBird();
 					returnvalue = 0;
 					let end = new GameSound("sound/end.mp3");
 						end.play();
 				}
 			}
-		});
+		}.bind(this));
 
 		return returnvalue;
 	}
 
+	// DESTROY ALL OBSTACLES
+	resetObstacles(){
+
+		this.obstacles.forEach(function(obstacle){
+
+			obstacle.destroyObstacle();
+
+		}.bind(this));
+
+		this.obstacles = [];
+		return 1;
+	}
 }
