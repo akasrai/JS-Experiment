@@ -3,7 +3,7 @@ var $container = document.getElementById("container"),
 	$background = document.getElementById("background"),
 	gamePanelWidth	= 1000,
 	gamePanelHeight	= 600,
-	intervalSpeed	= 100,
+	intervalSpeed	= 50,
 	bulletid		= 0,
 	gamePlaying,
 	// IF GAME IS IN PALY OR PAUSE STATE
@@ -59,22 +59,12 @@ function setLevel(resetPanel){
 	var $scorepanel = gamePanel.scorePanel();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// CREATING LEVEL THAT CREATES UFO AS PER LEVEL
-	var level1 = new GameLevel({
 
-		level 	: 1,
-		ufos 	: 50,
-		parent 	: $panelCreated,
-		speed 	: 5,
-		ufoLife : 1,
-		point 	: 2
-
-	});
-
+// CREATING LEVEL THAT CREATES UFO AS PER LEVEL
 	var level = new GameLevel({
 
 		level 	: 2,
-		ufos 	: 100,
+		// ufos 	: 100,
 		parent 	: $panelCreated,
 		speed 	: 10,
 		ufoLife : 2,
@@ -83,7 +73,7 @@ function setLevel(resetPanel){
 	});
 
 	var shooter = level.createShooter();
-	var ufos 	= level.createUfos();
+	// var ufos 	= level.createUfos();
 	var scoreCounter = level.scorePanelInitialise($scorepanel);
 					   level.gameScore();		  
 
@@ -117,16 +107,24 @@ function setLevel(resetPanel){
 
 function playGame(level, shooter){
 
+	var newUfo = 0;
+
 	// SETTING INTERVAL FOR GAME
 	gamePlaying = setInterval(function(){
 
 		// CHECK SHOTTERS ALL COLLIION
 		shooterDestroyed = level.checkCollision(shooter);
+		if( newUfo == 20){
 
+			level.createUfos();
+			newUfo = 0;	
+		}
+		
 		// FLIES THE UFO 
 		level.flyUfo();
 
 		shooter.fireBullet();
+
 
 		document.onkeydown = function(){
 	
@@ -148,8 +146,8 @@ function playGame(level, shooter){
 			gameOver(level);
 
 		}
-	
-	},intervalSpeed);
+		newUfo ++;
+	},80);
 }
 
 startGame();

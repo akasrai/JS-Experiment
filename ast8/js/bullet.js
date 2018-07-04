@@ -34,12 +34,11 @@ function Bullet(props){
  		thisBullet.$parent.appendChild(thisBullet.$bullet);
 
  		// TO MOVE THE BULLET
- 		// fireBullet();
-
+ 	
  		return thisBullet.$bullet;
  	}
 
- 	var updateBulletPosition = function(){
+ 	var updateBulletPosition = function(firedbullet){
 
  		// ADDING SHOOTERS X POSITION TO MAKE IT FLY ON SAME POSITION OF SHOOTERS PARENT
  		thisBullet.$bullet.style.left 	= thisBullet.x + thisBullet.parentX + "px";
@@ -53,25 +52,24 @@ function Bullet(props){
  		if(thisBullet.y > thisBullet.parentHeight){
 
  			thisBullet.$parentOfParent.removeChild(thisBullet.$bullet);
+ 			// var timeoutID = window.setTimeout(removeBullet, 200);
+ 			// firedbullet.splice(thisBullet.$bullet, 1);
+ 			
+ 			return firedbullet;
 				
  		}
 		
  	}
 
- 	this.fireBullet = function(){
+ 	
 
- 		// var firedBullet = setInterval(function(){
-
- 			updateBulletPosition();
-
- 		// 	if(thisBullet.y > (thisBullet.parentHeight + 100)){
- 				
- 		// 		clearInterval(firedBullet);
- 		// 		return false;
- 		// 	}
-
- 		// },10)
  		
+ 
+
+ 	this.fireBullet = function(firedbullet){
+
+ 		updateBulletPosition(firedbullet);
+	
  	}
 
  	this.destroyBullet = function(){

@@ -10,9 +10,10 @@ function GamePanel(props){
 	// FOR BACKGROUND PANEL (ITS SEPERATE DIV ALREADY CREATED USING CSS HTML)
 	this.background  = props.background;
 	this.$background = props.backgroundParent;
-	this.scrollY	 = -1;
+	this.scrollY	 = 1;
 	this.backgroundY = 0;
-	this.scrollSpeed = props.scrollSpeed || 10;
+	this.scrollSpeed = props.scrollSpeed || 20;
+	this.backgroundPosition = 0;
  	
 	var thisPanel = this;
 	var infinityBg;
@@ -43,25 +44,16 @@ function GamePanel(props){
 	this.infinityBackground = function(){
 
 		infinityBg = setInterval(function(){
-
-			thisPanel.$background.style.marginBottom = thisPanel.backgroundY + "px";
-
-			// UPDATE NEW POSITION / MARGIN TOP
-			updateBackgroundPosition();
-
-			if(thisPanel.backgroundY <= - (10000 - gamePanelHeight)){
-
-				thisPanel.backgroundY = gamePanelHeight;
-			}
-
-		},80);
+			thisPanel.backgroundPosition += thisPanel.scrollY * thisPanel.scrollSpeed;
+			thisPanel.$background.style.backgroundPosition = "0px "+ thisPanel.backgroundPosition + "px";
+		},100);
 		
 	}
 
 	// GIVING NEW POSITION TO BG TO SCROLL
 	var updateBackgroundPosition = function(){
 
-		thisPanel.backgroundY += thisPanel.scrollY * thisPanel.scrollSpeed;
+		thisPanel.backgroundPosition += thisPanel.scrollY * thisPanel.scrollSpeed;
 	}
 
 
