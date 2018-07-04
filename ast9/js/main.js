@@ -99,7 +99,7 @@ function animateGame(){
 	}
 
 	game.moveObstacles();
-	play = game.checkObstacleCollision(bird);
+	play = game.checkObstacleCollision(bird, gamePanel);
 	
   	obstaclesInterval++;
 }
@@ -126,6 +126,7 @@ document.onkeydown = function(){
 
 			bird.resetBird();
 			game.resetObstacles();
+			game.resetScore();
 			gamePanel.removeGamePanelText();
 			gamePanel.resetPanel();
 			gamePanel.initPanel();
