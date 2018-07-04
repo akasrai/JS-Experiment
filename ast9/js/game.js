@@ -3,7 +3,6 @@
 class Game{
 
 	constructor(){
-
 		this.obstacles = [];
 		this.obstacleCount = 0;
 		this.topOrBottom = [1,-1];
@@ -17,6 +16,7 @@ class Game{
 		let heightOfObstacle = Math.floor(Math.random() * (240 - 80)) + 80;
 
 		for(let i = 0; i < 2; i++){
+			
 			this.obstacles[this.obstacleCount] = new Obstacle({
 	
 				width	: 60,
@@ -50,6 +50,8 @@ class Game{
 
 					// DESTROY OBJECT FROM ARRAY
 					// let removIindex = this.obstacles.indexOf(this.obstacle);
+					// this.obstacles.splice(removIindex,1);
+
 					// console.log(obstacle.posX)
 					this.obstacles.shift();
 					obstacle.destroyObstacle();

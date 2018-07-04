@@ -96,7 +96,7 @@ body{
 	/*outline: 1px dashed black;*/
 	background-repeat: no-repeat;
 	background-size: 100%;
-	z-index:50;
+	z-index:70;
 }
 
 .obstacles{

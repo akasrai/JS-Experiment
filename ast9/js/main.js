@@ -13,7 +13,7 @@ let panelWidth = 700,
 	$bgPanel,
 	createBgPanel,
 	restart = 0,
-	backgroundMusic;
+	backgroundMusic = new GameSound("sound/bgmusic.ogg");
 
 
 ///////////////////////////////////- PANEL CREATION -/////////////////////////////////
@@ -83,7 +83,6 @@ function animateGame(){
 	}else{
 
 		restart = gamePanel.gameOverText();
-		backgroundMusic = new GameSound("sound/bgmusic.ogg");
 		backgroundMusic.stop();
 	}
 
@@ -118,8 +117,7 @@ document.onkeydown = function(){
 	}
 
 	if(keyPressedCode == 32 && play == 0){
-		
-		backgroundMusic = new GameSound("sound/bgmusic.ogg");
+
 		backgroundMusic.play();
 
 		if(restart === 1){
@@ -138,6 +136,43 @@ document.onkeydown = function(){
 			bird.initBird();	
 			
 			restart = 0;
+			
+		}
+
+		gamePanel.removeGamePanelText();
+		play = 1;
+		animateGame();
+	}
+}
+
+document.onclick = function(){
+
+	if(play === 1 && bird.life === 1){
+
+		bird.flyBirdUpwardsOnClick();
+	}
+
+	if(play == 0){
+
+		backgroundMusic.play();
+
+		if(restart === 1){
+			
+			bird.resetBird();
+			game.resetObstacles();
+			game.resetScore();
+			gamePanel.removeGamePanelText();
+			gamePanel.resetPanel();
+			gamePanel.initPanel();
+			
+			bird.top = 200;
+			bird.dy  = -1;
+			bird.timeCount = 6;
+			bird.life = 1;
+			bird.initBird();	
+			
+			restart = 0;
+			
 		}
 
 		gamePanel.removeGamePanelText();
