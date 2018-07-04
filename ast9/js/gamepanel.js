@@ -42,5 +42,31 @@ class GamePanel{
 		this.$gamePanel.style.backgroundPosition = this.scrollX+"px 100%";
 		this.updateBgPosition();
 	}
+
+	// ADD START GAME TEXT
+	addGamePanelText(){
+
+		this.$gamePanel.innerHTML = "<p>PRESS SPACE TO</p><h1> START </h1>";
+	}
+
+	// REMOVE START GAME TEXT
+	removeGamePanelText(){
+
+		this.$gamePanel.innerHTML = "";
+		// this.$gamePanel.style.transition = "50s";
+	}
+
+	// GAME OVER TEXT
+	gameOverText(){
+
+		this.$gamePanel.innerHTML = "<h1 style='margin-top:30%;'>GAME OVER</h1>";
+		return 1;
+	}
+
+	// RESETTING PANELS
+	resetPanel(){
+
+		this.$parent.removeChild(this.$gamePanel);
+	}
 	
 }
