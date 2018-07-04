@@ -7,7 +7,7 @@
  	this.id 	= props.id || "shooter";
  	this.$parent = props.parent;
  	this.background = props.background;
- 	this.speed 		= props.speed || 20;
+ 	this.speed 		= props.speed || 30;
  	this.dx 		= 0;
  	this.dy 		= 0;
  	this.x 			= props.left || 50;
@@ -53,6 +53,8 @@
  		thisShooter.x += thisShooter.dx * thisShooter.speed;
  		thisShooter.y += thisShooter.dy * thisShooter.speed;
 
+ 		plotPosition();
+
  	}
 
  	// CHECKING WALL COLLISION
@@ -91,8 +93,8 @@
 
 	        // PLOTTING THE NEW POSITION OF SHOOTER
 	        thisShooter.updateNewPosition();
- 			plotPosition();
- 			var timeoutID = window.setTimeout(changeBackground, 200);	
+ 			// plotPosition();
+ 			var timeoutID = window.setTimeout(changeBackground, 100);	
 	        break;
 
 	    case UP:
@@ -102,7 +104,7 @@
 
 	       	// PLOTTING THE NEW POSITION OF SHOOTER
 	       	thisShooter.updateNewPosition();
- 			plotPosition();
+ 			// plotPosition();
 	        break;
 
 	    case RIGHT:
@@ -113,8 +115,8 @@
 
 	        // PLOTTING THE NEW POSITION OF SHOOTER
 	        thisShooter.updateNewPosition();
- 			plotPosition();
- 			var timeoutID = window.setTimeout(changeBackground, 200);	
+ 			// plotPosition();
+ 			var timeoutID = window.setTimeout(changeBackground, 100);	
 	        break;
 	    case DOWN:
 
@@ -123,7 +125,7 @@
 
 	    	// PLOTTING THE NEW POSITION OF SHOOTER
 	    	thisShooter.updateNewPosition();
- 			plotPosition();
+ 			// plotPosition();
 	        break;
 
 	    case FIRE:
@@ -160,7 +162,7 @@
 
  			if(typeof bullet !== "undefined"){
  			
- 				bullet.fireBullet();
+ 				bullet.fireBullet(firedbullet);
  			}
 		});
  	}
@@ -176,26 +178,7 @@
 
  	// RETURN THE BULLETS FIRED TO ACCESS FOR OTHER CLASSES
  	this.bulletsFired = function(){
-
- 		// IF BULLET CROSSES THE SCREEN ITS REMOVED FRO THE SCREEN AND ARRAY
- 		firedbullet.forEach(function(bullet) {
-			
-			if( bullet.y <  thisShooter.parentHeight){
-
-	 			// GETTING INDEX TO DELETE
-				// var removeIndex = firedbullet.indexOf(bullet);
-				
-				// DELETING FROM ARRAY
-				// firedbullet.splice(removeIndex, 1);
-
-				// if(firedbullet[removeIndex] == undefined ){
-
-				// 	firedbullet = [];
-				// }
-	 		}
-		});
- 		//console.log(firedbullet.length);
- 		//console.log(firedbullet);
+ 		
  		return firedbullet;
  	}
 
