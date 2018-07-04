@@ -144,4 +144,11 @@ class FlappyBird{
 
 		this.$parent.removeChild(this.$bird);
 	}
+
+	// FOR CLICK EVENT
+	flyBirdUpwardsOnClick(){
+
+		this.timeCount = 10;
+				
+	}
 }
