@@ -33,20 +33,13 @@
 
  	// DRAW UFOS
  	drawShooter(){
- 		// let $shooterImage = new Image();
-	 		// $shooterImage.src = "images/shooter.gif";
-
+ 	
  		if(this.shooterLoaded){
- 						
-			// $shooterImage.onload = function(){
-	
-			// 	this.shooterLoaded = true;
-				// this.ctx.fillStyle = "rgba(0,0,0,.2";
-		      	this.ctx.drawImage(this.$shooterImage, this.x, this.y, this.width, this.height);
-	    	// }.bind(this);
- 				
+ 		  
+ 		   	this.ctx.drawImage(this.$shooterImage, this.x, this.y, this.width, this.height);
+	    		
  		}else{
- 			//this.ctx.drawImage($shooterImage, this.x, this.y, this.width, this.height);	
+ 		
  			console.log("Shooter image not loaded");
  		}
 		
@@ -152,12 +145,8 @@
  	// CHECK BULLET AND CALL MOVEBULLET
  	moveBullet(){
 
- 		// console.log(this.bullets);
  		this.bullets.forEach(function(bullet){
 
- 			// console.log(bullet);
-
- 			// bullet.changeBulletDx();
  			bullet.moveBullet();
  		});
  	}

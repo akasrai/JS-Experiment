@@ -24,37 +24,6 @@
 
  	}
 
- 	// DRAW BULLET
- 	// drawBullet(){
- 		
- 	// 	if(this.bulletImageLoaded){
- 			
-		//     this.ctx.drawImage(this.$bulletImage, this.x, this.y, this.width, this.height);
-	    	
- 	// 	}else{
- 			
- 	// 		console.log("Shooter image not loaded");
- 	// 	}
-		
- 	// }
-
- 	// // LOAD BULLET
- 	// loadBullet(){
-
- 	// 	this.$bulletImage = new Image();
-	 // 	this.$bulletImage.src = "images/bullet2.png";
-
- 	// 	if(!this.bulletImageLoaded){
- 						
-		// 	this.$shooterImage.onload = function(){
-	
-		// 		this.bulletImage = true;
-		      
-	 //    	}.bind(this);
- 				
- 	// 	}
- 	// }
-
  	// FIRES THE BULLET
  	fire(){
 
