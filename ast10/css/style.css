@@ -1,0 +1,41 @@
+*{
+
+	padding:0;
+	margin:0;
+
+}
+/*img{
+	display: block;
+	border:none;
+}*/
+
+.clearfix:after{
+	content: "";
+	display:table;
+	clear:both;
+}
+
+body{
+	/*background-color: black;*/
+}
+
+
+.container{
+	width:100%;
+/*	background-color: black;
+*/	height: 100%;
+	position:absolute;
+	overflow: hidden;
+}
+
+.gamepanel{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	margin: 0 auto;
+	z-index: 0;
+}
+
+.shooter{
+	z-index: 100;
+}
