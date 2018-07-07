@@ -9,6 +9,7 @@
  	constructor(props){
  		
  		this.ufos = [];
+		this.playing= true;
 		this.ufoCounter	= 0;
 		this.ufoInterval= 60; 		
 		this.isUfoLoaded = false; 		
@@ -71,8 +72,7 @@
  	// UFO GENERATOE
  	generateUfos() {
 
- 		let dir = [1,0,-1],
- 			type = [0,1,2,3,4,5,6];
+ 		let dir = [1,0,-1];
 
  		// UFO OBJECT
  		this.ufos[this.ufoCounter] = new Ufo({
@@ -82,10 +82,9 @@
  			ctx		: this.ctx,
  			canvasWidth	: this.width,
  			canvasHeight : this.height,
- 			dx		:  dir[Math.floor(Math.random() * dir.length)],
- 			dy		:  dir[Math.floor(Math.random() * dir.length)],
- 			type 	: type[Math.floor(Math.random() * type.length)],
- 			x		: Math.floor(Math.random() * (((this.width/2) + 100) - ((this.width/2) - 100)))  + ((this.width/2) - 100),
+ 			dx		: dir[Math.floor(Math.random() * dir.length)],
+ 			dy		: dir[Math.floor(Math.random() * dir.length)],
+ 			x		: Math.floor(Math.random() * (((this.width/2) + 100) - ((this.width/2) - 200)))  + ((this.width/2) - 200),
  		});
 
  		// if(!this.isUfoLoaded){
@@ -100,13 +99,17 @@
  	// MAIN ANIMATION LOOP
  	gameAnimationLoop(KEY_STATUS){
 
- 		this.animationId = requestAnimationFrame(this.gameAnimationLoop);
+ 		if(this.playing){
+
+ 			this.animationId = requestAnimationFrame(this.gameAnimationLoop);
+ 			
+ 		}
  		this.background.drawBackground(this.shooter);
 
  		if(this.ufoInterval <= 0){
 
  			this.generateUfos();
- 			this.ufoInterval = 60;
+ 			this.ufoInterval = 50;
  		}
  		if(!this.isBulletFired){
 
@@ -117,14 +120,17 @@
  		}
  		
 
- 		if(this.isBulletFired){
-
- 			this.shooter.moveBullet();
- 			// isBulletFired.moveBullet(isBulletFired);
- 		}
  		this.shooter.drawShooter();
 
  		this.flyUfos();
+
+ 		this.ufoUpdate();
+ 	
+ 		if(this.isBulletFired){
+
+ 			this.shooter.moveBullet(this.ufos);
+ 			// isBulletFired.moveBullet(isBulletFired);
+ 		}
 
  		this.ufoInterval--;
  	}
@@ -135,7 +141,42 @@
  		this.ufos.forEach(function(ufo){
 
  			ufo.flyUfos();
+
  		}.bind(this));
+ 	}
+
+ 	// CHECK UFOS DESTROYED
+ 	ufoUpdate(){
+
+ 		let newArr = [];
+		
+		this.ufos.forEach(function(ufo) {
+		    
+		    if (ufo.y > this.height + 400 || ufo.y < -400 || ufo.life <= 0 ) {
+
+		        this.ufos.splice(ufo, 1);
+		    	
+			} else if (ufo.x < (this.shooter.x + this.shooter.width) && (ufo.x + ufo.width) > this.shooter.x) {
+
+				if( (ufo.y + ufo.height) > this.shooter.y && ufo.y < (this.shooter.y + this.shooter.height) ){
+		    		
+		    		this.playing = ufo.destroyUfosAndShooter(this.ufos, this.shooter);
+
+				} else {
+
+		    		newArr.push(ufo);
+		    	}
+
+		    } else  {
+		    
+		    	newArr.push(ufo);
+		    }
+
+		}.bind(this));
+
+		this.ufos = newArr;
+
+		// console.log(this.ufos.length);
  	}
 
  }

@@ -23,6 +23,9 @@
  		this.canvasWidth = props.canvasWidth;
  		this.canvasHeight= props.canvasHeight;
 
+ 		if(this.dy === 1) { this.type = Math.floor(Math.random() * (6 - 4)) + 4; }
+ 		else { this.type = Math.floor(Math.random() * (6 - 0)) + 0; }
+
  		this.image = null;
  	}
 
@@ -31,10 +34,20 @@
 
  		if(this.isUfoLoaded){
 
- 			if(this.dy === 1)
- 				this.type = 4;
+ 			// if(this.life === 0) 
+ 			// 	this.type = Math.floor(Math.random() * (15 - 8)) + 8;
 
- 			this.ctx.drawImage(this.loadedUfos[this.type], this.x + 50, this.y, this.width, this.height);	
+ 			// if(this.dx === -1 && this.dy ===-1) { this.ctx.rotate(20 * Math.PI / 180); this.y = 150}
+ 			// if(this.dx === -1 && this.dy === -1) { 
+
+ 			// 	 this.ctx.rotate(20 * Math.PI / 180);
+
+ 			// }
+
+ 			this.ctx.drawImage(this.loadedUfos[this.type], this.x + 50, this.y, this.width, this.height);
+
+ 			// this.ctx.resetTransform();
+
  		}else{
 
  			// console.log("No images loaded");
@@ -44,7 +57,10 @@
  	// IMAGES LOADER
  	loadImages() {
 
-	    let images = ["images/fighter2.png", "images/fighter3.png", "images/fighter4.png", "images/fighter5.png","images/ast1.png","images/ast2.png","images/ast3.png",];
+	    let images = ["images/fighter2.png", "images/fighter3.png", "images/fighter4.png", 
+	    				"images/fighter5.png","images/ast1.png","images/ast2.png","images/ast3.png",
+	    				"images/blast.gif","images/fire2.gif","images/b1.png","images/b2.png","images/b3.png",
+	    				"images/b4.png","images/b5.png","images/b6.png","images/b7.png"];
 
 	    let loadcount = 0;
 	    let loadtotal = images.length;
@@ -73,10 +89,38 @@
  	flyUfos() {
 
  		this.y -= this.dy * this.speed; 
- 		this.x += this.dx * this.speed;
+ 		this.x += this.dx * (this.speed + 2);
+ 		
  		this.width += 0.6;
  		this.height += 0.6;
 
  		this.drawUfo();
+ 	}
+
+ 	// REMOVE UFOS FROM ARRAY IF DESTROYED
+ 	destroyUfos(ufos) {
+
+ 		this.type = Math.floor(Math.random() * (15 - 8)) + 8;
+		this.ctx.drawImage(this.loadedUfos[this.type], this.x + 50, this.y, this.width, this.height);
+		
+		// this.ctx.clearRect(this.x + 50, this.y, this.x + this.width, this.y + this.height); 		
+ 		ufos.splice(this, 1);
+	 	// console.log("destroyed ufo");
+ 	
+ 		return ufos;
+ 	}
+
+ 	// AFTER DESTROYING UFO AND SHOOTER ONCE THEY COLLIDE
+ 	destroyUfosAndShooter(ufos, shooter){
+
+ 		this.type = Math.floor(Math.random() * (15 - 8)) + 8;
+
+ 		this.ctx.drawImage(this.loadedUfos[this.type], this.x + 50, this.y, this.width, this.height);
+ 		this.ctx.drawImage(this.loadedUfos[8], shooter.x + 50, shooter.y, shooter.width, shooter.height);
+ 		
+ 		ufos.splice(this, 1);
+
+ 		return false;
+ 		// console.log("Both destroyed");
  	}
 }

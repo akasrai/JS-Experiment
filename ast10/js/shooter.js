@@ -135,6 +135,7 @@
  			canvasHeight : this.canvasHeight
  		});
 
+ 		this.bullets[this.bulletCount].loadImages();
  		this.bullets[this.bulletCount].fire();
 
  		this.bulletCount ++;
@@ -143,12 +144,27 @@
  	}
 
  	// CHECK BULLET AND CALL MOVEBULLET
- 	moveBullet(){
-
+ 	moveBullet(ufos){
+		let newArr = [];
+		
  		this.bullets.forEach(function(bullet){
+ 			
+ 			if (bullet.width <= 0 || bullet.bulletHitUfo(ufos)) {
 
- 			bullet.moveBullet();
- 		});
+ 				this.bullets.splice(bullet, 1);
+ 				
+ 			} else {
+
+   		    	bullet.moveBullet();	
+   		    	newArr.push(bullet);
+			}
+
+ 		}.bind(this));
+
+ 		this.bullets = newArr;
+ 		// console.log(this.bullets.length);
  	}
+
+ 	
  	
 }

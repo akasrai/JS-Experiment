@@ -19,27 +19,51 @@
  		this.canvasWidth	= props.canvasWidth;
  		this.canvasHeight	= props.canvasHeight;
 
+ 		this.image = null;
  		this.bulletImage = null;
- 		this.bulletImageLoaded = false;
-
+ 		this.loadeBulletImage = [];
+ 		this.isBulletImageLoaded = false;
  	}
 
+ 	// IMAGES LOADER
+ 	loadImages() {
+
+	    let images = ["images/blast.gif","images/fire2.gif"];
+
+	    let loadcount = 0;
+	    let loadtotal = images.length;
+	    
+	    for (var i=0; i<images.length; i++) {
+	      	 
+	      	this.image = new Image();
+	        this.image.onload = function () {
+	            loadcount++;
+	            if (loadcount == loadtotal) {
+	                // Done loading
+	                this.isBulletImageLoaded = true;
+	            }
+	        }.bind(this);
+	
+	        this.image.src = images[i];
+	 
+	        // Save to the image array
+	        this.loadeBulletImage[i] = this.image;
+	    }
+	 
+	    return this.loadedUfos;
+ 	}
  	// FIRES THE BULLET
  	fire(){
 
-		// this.ctx.fillStyle = "rgb(255,255,255)";
-		// this.ctx.rect(this.x + 50, this.y, this.width, this.height);
 		this.ctx.drawImage($bulletImage, this.x + 50, this.y, this.width, this.height);	
-		// this.ctx.fill();
-		// alert("boom")
-
+		
  	}
 
  	// ANIMATE BULLET
  	moveBullet(){
 
- 		this.width -= 0.8;
- 		this.height -= 0.8;
+ 		this.width -= 0.6;
+ 		this.height -= 0.6;
 
  		let center = (this.canvasWidth / 2) ;
  		// let aim  = Math.floor(Math.random() * (center - 590)) + 590;
@@ -56,21 +80,21 @@
 	 	// 	}
 	 	// }
 
-	 	if (KEY_STATUS.left) {
+	 // 	if (KEY_STATUS.left) {
 			
-	 		this.x +=15;
+	 // 		this.x +=15;
 
-		} else if (KEY_STATUS.right) {
+		// } else if (KEY_STATUS.right) {
 			
-			this.x -= 15;
+		// 	this.x -= 15;
 
-		} else if (KEY_STATUS.up) {
-			this.y += 8 ;
+		// } else if (KEY_STATUS.up) {
+		// 	this.y += 8 ;
 
-		} else if (KEY_STATUS.down) {
+		// } else if (KEY_STATUS.down) {
 
 
-		}
+		// }
 
  		// console.log(this.dx);
  		this.y += this.dy * this.speed; 
@@ -85,5 +109,29 @@
 
 			return false;
 		}	
+ 	}
+
+ 	// CHECKING BULLET AND UFO COLLISION
+ 	bulletHitUfo(ufos) {
+
+		for(let i = 0; i < ufos.length; i++ ) {
+
+			if(ufos[i].x < (this.x + this.width) && (ufos[i].x + ufos[i].width) > this.x){
+
+				if( (ufos[i].y + ufos[i].height) > this.y && ufos[i].y < (this.y + this.height) ){
+					
+					ufos[i].life--;
+
+					if(ufos[i].life <= 0){
+
+						ufos[i].destroyUfos(ufos);	
+					}
+
+					this.ctx.drawImage(this.loadeBulletImage[0], this.x + 50, this.y, this.width, this.height);
+	
+					return ufos;				
+				}
+			}
+		}
  	}
 }
