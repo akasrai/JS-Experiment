@@ -3,6 +3,7 @@
  */
 
 "use strict";
+let xCounter = 0;
 
 let KEY_CODES = {
   	32: 'space',

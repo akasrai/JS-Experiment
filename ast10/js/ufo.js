@@ -8,6 +8,7 @@
 
  	constructor(props){
 
+ 		this.point = 0;
  		this.ctx = props.ctx;
  		this.loadedUfos = [];
  		this.isUfoLoaded = false;
@@ -25,6 +26,11 @@
 
  		if(this.dy === 1) { this.type = Math.floor(Math.random() * (6 - 4)) + 4; }
  		else { this.type = Math.floor(Math.random() * (6 - 0)) + 0; }
+
+ 		if(this.type >= 4)
+ 			this.point = 2;
+ 		else
+ 			this.point = 1;
 
  		this.image = null;
  	};

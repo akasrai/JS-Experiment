@@ -12,6 +12,7 @@
  		this.fireRate= 5;
  		this.bullets = [];
  		this.bulletCount = 0;
+ 		this.bulletAngle = 90;
  		this.ctx	= props.ctx;
  		this.$parent= props.$parent;
  		this.x 	 	= props.x || 100;
@@ -24,20 +25,34 @@
  		this.height = props.height || 100;
  		this.canvasWidth	= props.canvasWidth;
  		this.canvasHeight	= props.canvasHeight;
- 		
 
  		this.shooterLoaded = false;
  		this.shooterImage = null;
- 		// this.drawShooter = this.drawShooter.bind(this);
+ 		
+ 		// SPRITE ANIMATION OF SHOOTER
+ 		this.totalframes = 5;
+ 		this.currentframe = 0;
+ 		this.marioTimer = null;
+
+
  	};
 
  	// DRAW UFOS
  	drawShooter(){
  	
  		if(this.shooterLoaded){
- 		  
+			
+			this.currentframe++; 		  
  		   	// this.ctx.globalAlpha = 0.5;
- 		   	this.ctx.drawImage(this.$shooterImage, this.x, this.y, this.width, this.height);
+ 		   	// this.ctx.drawImage(this.$shooterImage, this.x, this.y, this.width, this.height);
+  
+  			this.ctx.drawImage(this.$shooterImage, this.currentframe*this.width, 0, this.width, this.height, this.x, this.y, this.width, this.height);
+  
+  
+			if(this.currentframe >= this.totalframes){
+				
+				this.currentframe = 0;
+			}
 		
  		}else{
  		
@@ -50,7 +65,7 @@
  	loadShooter(){
 
  		this.$shooterImage = new Image();
-	 	this.$shooterImage.src = "images/shooter.gif";
+	 	this.$shooterImage.src = "images/shooteronfire.png";
 
  		if(!this.shooterLoaded){
  						
@@ -94,15 +109,31 @@
 				if (this.x <= 0) // Keep player within the screen
 					this.x = 0;
 
+				
+				this.currentframe = this.currentframe -1;
+				
+				if(this.currentframe <= 0)
+					this.currentframe = 0;
+				
+				// this.bulletAngle += 1;
+
 			} else if (KEY_STATUS.right) {
 				this.x += this.speed
 				if (this.x >= this.canvasWidth - this.width)
 					this.x = this.canvasWidth - this.width;
 
+				
+				this.currentframe = this.currentframe +1;
+				
+				if(this.currentframe >= 70)
+					this.currentframe = 70;
+
+				// this.bulletAngle -= 1;
+
 			} else if (KEY_STATUS.up) {
 				this.y -= this.speed
-				if (this.y <= this.canvasHeight/4*2)
-					this.y = this.canvasHeight/4*2;
+				if (this.y <= this.canvasHeight/4*2.3)
+					this.y = this.canvasHeight/4*2.3;
 
 			} else if (KEY_STATUS.down) {
 				this.y += this.speed
@@ -137,7 +168,7 @@
  		});
 
  		this.bullets[this.bulletCount].loadImages();
- 		this.bullets[this.bulletCount].fire();
+ 		this.bullets[this.bulletCount].fire(this.bulletAngle);
 
  		this.bulletCount ++;
 
@@ -151,7 +182,7 @@
  	moveBullet(ufos){
 		let newArr = [];
 		// let score =0;
-		
+
  		this.bullets.forEach(function(bullet){
  			
  			if (bullet.width <= 0 || bullet.bulletHitUfo(ufos)) {
@@ -161,7 +192,7 @@
 
  			} else {
 
-   		    	bullet.moveBullet();	
+   		    	bullet.moveBullet(this.bulletAngle);	
    		    	newArr.push(bullet);
 			}
 

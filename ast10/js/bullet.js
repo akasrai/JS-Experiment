@@ -24,11 +24,6 @@
  		this.loadeBulletImage = [];
  		this.isBulletImageLoaded = false;
 
- 		this.gameSocre = new Game({
- 			width	: 0,
- 			height	: 0,
- 			$parent	: $container
- 		});
  	};
 
  	// IMAGES LOADER
@@ -60,19 +55,19 @@
  	};
 
  	// FIRES THE BULLET
- 	fire(){
+ 	fire(angle){
 
-		this.ctx.drawImage($bulletImage, this.x + 50, this.y, this.width, this.height);	
+		this.ctx.drawImage($bulletImage, this.x + angle, this.y-20, this.width, this.height);	
 		
  	};
 
  	// ANIMATE BULLET
- 	moveBullet(){
+ 	moveBullet(angle){
 
  		this.width -= 0.6;
  		this.height -= 0.6;
 
- 		let center = (this.canvasWidth / 2) ;
+ 		// let center = (this.canvasWidth / 2) ;
  		// let aim  = Math.floor(Math.random() * (center - 590)) + 590;
 
  		// if(!(this.x > (center - 200) && this.x < (center + 200))){
@@ -95,13 +90,14 @@
 			
 		// 	this.x -= 15;
 
-		// } else if (KEY_STATUS.up) {
-		// 	this.y += 8 ;
+		// } else
+		 if (KEY_STATUS.up) {
+			this.y += 8 ;
 
-		// } else if (KEY_STATUS.down) {
+		} else if (KEY_STATUS.down) {
 
 
-		// }
+		}
 
  		// console.log(this.dx);
  		this.y += this.dy * this.speed; 
@@ -111,7 +107,7 @@
 
 		if(this.width > 0 && this.height > 0) {
 
-			this.fire();
+			this.fire(angle);
 		}else{
 
 			return false;
@@ -132,7 +128,7 @@
 					if(ufos[i].life <= 0){
 
 						ufos[i].destroyUfos(ufos);	
-						this.showScore();
+						
 					}
 
 					this.ctx.drawImage(this.loadeBulletImage[0], this.x + 50, this.y, this.width, this.height);
@@ -143,22 +139,5 @@
 		}	
  	};
 
- 	// RETURNS SCORE TO GAME CLASS BULLET 
- 	showScore() {
 
- 		Bullet.score += 1;
-						
- 		this.gameSocre.showGameScore(Bullet.score);
- 	}
-
- 	// RESET KILLS AND SCORES
- 	resetKillsScore() {
-
- 		Bullet.score = 0;
- 		Bullet.kills = 0;
- 	}
 }
-
-// COUNTING SCORE
-Bullet.score = 0;
-Bullet.kills = 0;
