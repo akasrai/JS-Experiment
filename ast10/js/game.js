@@ -7,8 +7,9 @@
  class Game{
 
  	constructor(props){
- 		
  		this.ufos = [];
+ 		this.kills = 0;
+ 		this.score = 0;
  		this.playing= false;
 		this.restart =false;
 		this.ufoCounter	= 0;
@@ -196,14 +197,12 @@
  	initBackground(KEY_STATUS){
  		
  		this.playing = true;
-  		this.ctx.clearRect(0, 0, this.width, this.height);
- 		this.createObjects();
+		this.createObjects();
  		this.background.initStars();
  		this.gameAnimationLoop(KEY_STATUS);
  		this.shooter.loadShooter();
  		this.shooter.drawShooter();
-
- 		this.gameScorePanel();
+ 		
  		//this.backgroundMusic = new GameSound("sound/bg.mp3");
 		//this.backgroundMusic.play();
  	}
@@ -221,8 +220,8 @@
  		// SHOOTER OBJECT
  		this.shooter = new Shooter({
 
- 			width	: 120,
- 			height	: 100,
+ 			width	: 200,
+ 			height	: 110,
  			x		: this.width/2 - 60,
  			y		: 500,
  			ctx		: this.ctx,
@@ -281,6 +280,7 @@
  			this.generateUfos();
  			this.ufoInterval = 20;
  		}
+
  		if(!this.isBulletFired){
 
  			this.isBulletFired = this.shooter.flyShooter(KEY_STATUS);
@@ -324,11 +324,16 @@
 		    
 		    if (ufo.y > this.height + 400 || ufo.y < -400 || ufo.life <= 0 ) {
 
+		    	if(ufo.life <= 0){
+
+		    		this.score += ufo.point;
+		    		this.kills ++;
+		    	}
 		        
 		    	
-			} else if (ufo.x < (this.shooter.x + this.shooter.width) && (ufo.x + ufo.width) > this.shooter.x) {
+			} else if (ufo.x + 100 < (this.shooter.x + this.shooter.width) && (ufo.x + ufo.width) > this.shooter.x) {
 
-				if( (ufo.y + ufo.height) > this.shooter.y + 20 && ufo.y < (this.shooter.y + this.shooter.height) ){
+				if( (ufo.y + ufo.height) > this.shooter.y + 30 && ufo.y -20 < (this.shooter.y + this.shooter.height) ){
 		    		
 		    		this.playing = ufo.destroyUfosAndShooter(this.ufos, this.shooter);
 
@@ -345,55 +350,48 @@
 		}.bind(this));
 
 		this.ufos = newArr;
+ 		
+ 		this.gameScorePanel();
  	};
 
  	// GAME OVER SCREEN
  	gameOver() {
 
- 		this.homeScreenPattern(this.width/2 - 300, this.height/2 - 150, 600, 400);
  		let gradient = this.gradientTextColor();	
- 		this.ctx.font = "90px myfont";
+ 		this.homeScreenPattern(this.width/2 - 300, this.height/2 - 150, 600, 400);
+
+		this.ctx.font = "90px myfont";
 		this.ctx.fillStyle = gradient;
 		this.ctx.textAlign = "center";
 		this.ctx.fillText("Game Over", this.width/2, this.height/2);
 
 		this.ctx.font = "60px myfont";
 		if(this.restart)
-			this.ctx.fillText("Restart", this.width/2, this.height/2 + 100);
 			this.ctx.fillText("Quit", this.width/2, this.height/2 + 170);
+			this.ctx.fillText("Restart", this.width/2, this.height/2 + 100);
  	}
 
  	// GAME SCORE PANEL
  	gameScorePanel() {
 
- 		this.ctx.fillStyle = "rgba(204, 0, 0, 0.7)"
- 		this.ctx.fillRect(500,20, this.width, this.height)
+ 		// this.ctx.fillStyle = "rgba(204, 0, 0, 0.7)";
+ 		// this.ctx.fillRect(20,20, 400, 150)
+
+		this.ctx.textAlign = "left";
+ 		this.ctx.fillStyle = "white";
+ 		this.ctx.font = "50px myfont";
+		this.ctx.fillText("Kills : "+ this.kills, 30, 70);
+		this.ctx.fillText("score : "+ this.score, 30, 120);
+		// console.log(this.score);
  	}
 
- 	// UPDATE SCORE
- 	showGameScore(myScore){
-
- 		let score = (myScore) ? myScore : 0;
-
- 		this.ctx.fillStyle = "rgba(204, 0, 0, 0.7)"
- 		this.ctx.fillRect(500,20, this.width, this.height)
-
- 		this.ctx.fillStyle = "Green";
-		this.ctx.textAlign = "center";
-		this.ctx.fillText(score,500, 20);
- 	}
-
+ 	
  	// RESET GAME OBJECTS FOR RESTART
  	resetObjects() {
 
+ 		this.score =0;
+ 		this.kills = 0;
+ 		this.ufos  = [];
  		this.ufoCounter = 0;
- 		this.ufos = [];
- 		// this.shooter =
-
- 		let resetScore = new Bullet({
- 			x : 0,
- 			y : 0 
- 		});
- 		resetScore.resetKillsScore();
  	}
  }
