@@ -17,7 +17,7 @@ class Backgroun3d{
 		// BINDING THIS FOR ACCESSING THIS IN THOSE FUNCTION
 		this.initStars = this.initStars.bind(this);
 		this.animateStars = this.animateStars.bind(this);
-	}
+	};
 
 	// DRAWING THE BACKGROUND
 	drawBackground(shooter) {
@@ -26,12 +26,12 @@ class Backgroun3d{
 			
 			this.animateStars(shooter);
 		}
-	}
+	};
 
 	// RETURNS THE RANDOM NUMBER BETWEEN MIN AND MAX
 	randomRange(minVal,maxVal) {
      	return Math.floor(Math.random() * (maxVal - minVal)) + minVal;
-    }
+    };
  
 	// CREATION OF this.stars
 	initStars() {
@@ -43,7 +43,7 @@ class Backgroun3d{
 			}
 			// console.log(this.stars[i])
 		}
-	}
+	};
 
 	// LOOPING THE STARS
 	animateStars(shooter) {
@@ -90,5 +90,5 @@ class Backgroun3d{
 			// this.ctx.clearRect(px, py, size, size);
 		}
 
-    }
+    };
 }

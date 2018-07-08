@@ -70,5 +70,6 @@ let start = new Game({
  	$parent	: $container
 });
 
-start.initBackground(KEY_STATUS);
+start.startScreen(KEY_STATUS);
+
 

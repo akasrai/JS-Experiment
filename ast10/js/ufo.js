@@ -27,7 +27,7 @@
  		else { this.type = Math.floor(Math.random() * (6 - 0)) + 0; }
 
  		this.image = null;
- 	}
+ 	};
 
  	// DRAW UFOS
  	drawUfo(){
@@ -52,7 +52,7 @@
 
  			// console.log("No images loaded");
  		}
- 	}
+ 	};
 
  	// IMAGES LOADER
  	loadImages() {
@@ -83,7 +83,7 @@
 	    }
 	 
 	    return this.loadedUfos;
- 	}
+ 	};
 
  	// FLY UFOS
  	flyUfos() {
@@ -95,32 +95,38 @@
  		this.height += 0.6;
 
  		this.drawUfo();
- 	}
+ 	};
 
  	// REMOVE UFOS FROM ARRAY IF DESTROYED
  	destroyUfos(ufos) {
 
- 		this.type = Math.floor(Math.random() * (15 - 8)) + 8;
+ 		this.type = Math.floor(Math.random() * (15 - 9)) + 9;
 		this.ctx.drawImage(this.loadedUfos[this.type], this.x + 50, this.y, this.width, this.height);
 		
-		// this.ctx.clearRect(this.x + 50, this.y, this.x + this.width, this.y + this.height); 		
- 		ufos.splice(this, 1);
-	 	// console.log("destroyed ufo");
- 	
+		ufos.splice(this, 1);
+
+		// console.log("deleted form ufo");
+	 	
+	 	let explode = new GameSound("sound/explode3.mp3");
+			explode.play();
+
  		return ufos;
- 	}
+ 	};
 
  	// AFTER DESTROYING UFO AND SHOOTER ONCE THEY COLLIDE
  	destroyUfosAndShooter(ufos, shooter){
 
- 		this.type = Math.floor(Math.random() * (15 - 8)) + 8;
+ 		this.type = Math.floor(Math.random() * (15 - 9)) + 9;
 
  		this.ctx.drawImage(this.loadedUfos[this.type], this.x + 50, this.y, this.width, this.height);
  		this.ctx.drawImage(this.loadedUfos[8], shooter.x + 50, shooter.y, shooter.width, shooter.height);
  		
  		ufos.splice(this, 1);
 
+ 		let explode = new GameSound("sound/explode1.mp3");
+			explode.play();
+
  		return false;
- 		// console.log("Both destroyed");
- 	}
+ 		console.log("Both destroyed");
+ 	};
 }

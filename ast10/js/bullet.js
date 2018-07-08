@@ -7,7 +7,7 @@
  class Bullet{
 
  	constructor(props){
-
+ 	
  		this.x		= props.x;
  		this.y		= props.y;
  		this.ctx	= props.ctx;
@@ -23,7 +23,13 @@
  		this.bulletImage = null;
  		this.loadeBulletImage = [];
  		this.isBulletImageLoaded = false;
- 	}
+
+ 		this.gameSocre = new Game({
+ 			width	: 0,
+ 			height	: 0,
+ 			$parent	: $container
+ 		});
+ 	};
 
  	// IMAGES LOADER
  	loadImages() {
@@ -51,13 +57,14 @@
 	    }
 	 
 	    return this.loadedUfos;
- 	}
+ 	};
+
  	// FIRES THE BULLET
  	fire(){
 
 		this.ctx.drawImage($bulletImage, this.x + 50, this.y, this.width, this.height);	
 		
- 	}
+ 	};
 
  	// ANIMATE BULLET
  	moveBullet(){
@@ -109,12 +116,12 @@
 
 			return false;
 		}	
- 	}
+ 	};
 
  	// CHECKING BULLET AND UFO COLLISION
  	bulletHitUfo(ufos) {
 
-		for(let i = 0; i < ufos.length; i++ ) {
+ 		for(let i = 0; i < ufos.length; i++ ) {
 
 			if(ufos[i].x < (this.x + this.width) && (ufos[i].x + ufos[i].width) > this.x){
 
@@ -125,13 +132,33 @@
 					if(ufos[i].life <= 0){
 
 						ufos[i].destroyUfos(ufos);	
+						this.showScore();
 					}
 
 					this.ctx.drawImage(this.loadeBulletImage[0], this.x + 50, this.y, this.width, this.height);
-	
-					return ufos;				
+					
+					return ufos;					
 				}
 			}
-		}
+		}	
+ 	};
+
+ 	// RETURNS SCORE TO GAME CLASS BULLET 
+ 	showScore() {
+
+ 		Bullet.score += 1;
+						
+ 		this.gameSocre.showGameScore(Bullet.score);
+ 	}
+
+ 	// RESET KILLS AND SCORES
+ 	resetKillsScore() {
+
+ 		Bullet.score = 0;
+ 		Bullet.kills = 0;
  	}
 }
+
+// COUNTING SCORE
+Bullet.score = 0;
+Bullet.kills = 0;

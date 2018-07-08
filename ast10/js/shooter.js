@@ -29,21 +29,22 @@
  		this.shooterLoaded = false;
  		this.shooterImage = null;
  		// this.drawShooter = this.drawShooter.bind(this);
- 	}
+ 	};
 
  	// DRAW UFOS
  	drawShooter(){
  	
  		if(this.shooterLoaded){
  		  
+ 		   	// this.ctx.globalAlpha = 0.5;
  		   	this.ctx.drawImage(this.$shooterImage, this.x, this.y, this.width, this.height);
-	    		
+		
  		}else{
  		
  			console.log("Shooter image not loaded");
  		}
 		
- 	}
+ 	};
 
  	// LOAD UFOS
  	loadShooter(){
@@ -60,7 +61,7 @@
 	    	}.bind(this);
  				
  		}
- 	}
+ 	};
 
  	// DRAW SHOOTER USING DIV
  	drawShooterDiv(){
@@ -72,7 +73,7 @@
  		$shooter.style.className = "shooter";
 
  		this.$parent.appendChild($shooter);
- 	}
+ 	};
 
  	// MOVE THE SHOOTER
  	flyShooter(){
@@ -118,7 +119,7 @@
 
 			return true;
 		}
- 	}
+ 	};
 
  	// CREATE BULLET AND FIRE
  	fireBullet(){
@@ -140,19 +141,24 @@
 
  		this.bulletCount ++;
 
+ 		let destroyedSound = new GameSound("sound/gun.mp3");
+			destroyedSound.play();
+
  		return true;
- 	}
+ 	};
 
  	// CHECK BULLET AND CALL MOVEBULLET
  	moveBullet(ufos){
 		let newArr = [];
+		// let score =0;
 		
  		this.bullets.forEach(function(bullet){
  			
  			if (bullet.width <= 0 || bullet.bulletHitUfo(ufos)) {
 
  				this.bullets.splice(bullet, 1);
- 				
+ 				// score = bullet.getScore();
+
  			} else {
 
    		    	bullet.moveBullet();	
@@ -162,8 +168,9 @@
  		}.bind(this));
 
  		this.bullets = newArr;
+ 		// return score;
  		// console.log(this.bullets.length);
- 	}
+ 	};
 
  	
  	
