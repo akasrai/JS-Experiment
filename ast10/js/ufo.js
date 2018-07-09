@@ -9,8 +9,10 @@
  	constructor(props){
 
  		this.point = 0;
+ 		this.image = null;
  		this.ctx = props.ctx;
  		this.loadedUfos = [];
+ 		this.ufoBullet 	= [];
  		this.isUfoLoaded = false;
  		this.x 	 	= props.x || 100;
  		this.y 		= props.y || 100;
@@ -32,7 +34,6 @@
  		else
  			this.point = 1;
 
- 		this.image = null;
  	};
 
  	// DRAW UFOS

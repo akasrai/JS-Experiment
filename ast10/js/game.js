@@ -203,8 +203,8 @@
  		this.shooter.loadShooter();
  		this.shooter.drawShooter();
  		
- 		//this.backgroundMusic = new GameSound("sound/bg.mp3");
-		//this.backgroundMusic.play();
+ 	// 	this.backgroundMusic = new GameSound("sound/bg.mp3");
+		// this.backgroundMusic.play();
  	}
 
  	// CREATES ALL THE REQUIRED OBJECTS
@@ -270,7 +270,7 @@
  			this.restart = true;
  			this.gameOver();
  			return false;
- 			// this.backgroundMusic.stop();
+ 			this.backgroundMusic.stop();
  		}
 
  		this.background.drawBackground(this.shooter);
@@ -333,7 +333,7 @@
 		    	
 			} else if (ufo.x + 100 < (this.shooter.x + this.shooter.width) && (ufo.x + ufo.width) > this.shooter.x) {
 
-				if( (ufo.y + ufo.height) > this.shooter.y + 30 && ufo.y -20 < (this.shooter.y + this.shooter.height) ){
+				if( (ufo.y + ufo.height) > this.shooter.y + 30 && ufo.y + 100 < (this.shooter.y + this.shooter.height) ){
 		    		
 		    		this.playing = ufo.destroyUfosAndShooter(this.ufos, this.shooter);
 
