@@ -3,19 +3,19 @@
 class FlappyBird{
 
 	constructor( props ){
-		this.width 		= props.width || 45;
-		this.height 	= props.height || 45;
-		this.background = props.background || 40;
-		this.$parent 	= props.parent;
-		this.class 		= props.class;
-		this.id			= props.id;
-		this.left 	 	= props.left || 200;
-		this.top 	 	= props.top || 200;
-		this.speed 		= 8;
+		this.speed 		= 5;
 		this.dy			= -1;
 		this.timeCount 	= 6;
 		this.deg 		= 0;
 		this.life		= 1;
+		this.id			= props.id;
+		this.class 		= props.class;
+		this.$parent 	= props.parent;
+		this.top 	 	= props.top || 200;
+		this.left 	 	= props.left || 200;
+		this.width 		= props.width || 45;
+		this.height 	= props.height || 45;
+		this.background = props.background || 40;
 		this.$bird = document.createElement("div");
 
 	}
@@ -42,7 +42,7 @@ class FlappyBird{
 		if(this.timeCount > 0){
 		 	
 		 	this.dy = -1;
-		 	this.speed = 8;
+		 	this.speed = 5;
 		 	this.timeCount--;
 		 	(this.deg <= -35) ? this.deg = -35 : this.deg -= 10;
 
