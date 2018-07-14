@@ -1,22 +1,22 @@
 -- 1. Create necessary table with proper primary, foreign keys
-    CREATE TABLE users (
+    CREATE TABLE IF NOT EXISTS users (
         id              SERIAL PRIMARY KEY,
         name            varchar(255)
     );
 
-    CREATE TABLE authors (
+    CREATE TABLE IF NOT EXISTS authors (
         id              SERIAL PRIMARY KEY,
         name            varchar(255)
     );
 
-    CREATE TABLE books (
+    CREATE TABLE IF NOT EXISTS books (
         id              SERIAL PRIMARY KEY,
         isbn           varchar(255) NOT NULL,
         name            varchar(255),
         auther_id       int REFERENCES authors(id)
     );
 
-    CREATE TABLE loans (
+    CREATE TABLE IF NOT EXISTS loans (
         id              SERIAL PRIMARY KEY,
         borrower_id     int REFERENCES users(id),
         book_id         int REFERENCES books(id),
@@ -25,12 +25,12 @@
         returned_date   date
     );
 
-    CREATE TABLE categories (
+    CREATE TABLE IF NOT EXISTS categories (
         id          SERIAL PRIMARY KEY,
         name        varchar(100)
     );
 
-    CREATE TABLE books_categories (
+    CREATE TABLE IF NOT EXISTS books_categories (
         id              SERIAL PRIMARY KEY,
         book_id         int REFERENCES books(id),
         category_id     int REFERENCES categories(id)
@@ -172,8 +172,8 @@
     ALTER TABLE users ADD COLUMN is_active BOOLEAN;
 
     -- Updating users for deletion
-    UPDATE users SET is_active = '0' WHERE id IN ( SELECT borrower_id FROM loans WHERE now() - returned_date < interval '30 days');
-
+    UPDATE users SET is_active = '0' WHERE id IN 
+    ( SELECT borrower_id FROM loans WHERE now() - returned_date < interval '30 days');
 
 -- 14. Write a query to blacklist users who have not returned book for a month
     UPDATE users SET is_active = '0' WHERE id IN
