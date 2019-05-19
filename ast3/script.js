@@ -35,24 +35,24 @@ createIndicator();
 
 
 //---------------------- auto sliding slider---------------
-// setInterval(function(){
+setInterval(function(){
 
 	
-// 	slider.style.marginLeft = "-"+ marginleft + "px";
+ 	slider.style.marginLeft = "-"+ marginleft + "px";
 
-// 	var currentposition = marginleft / 1100; //(marginleft / 1100 == 0)  ? marginleft / 1100 + slides + 1 : marginleft / 1100;
+ 	var currentposition = marginleft / 1100; //(marginleft / 1100 == 0)  ? marginleft / 1100 + slides + 1 : marginleft / 1100;
 	
-// 	sliderIndicator(currentposition);	
+ 	sliderIndicator(currentposition);	
 	
-// 	if((slides * 1100) === marginleft){
-// 		marginleft = 0; 
-// 		//increment = 0;
-// 	}else{
-// 		marginleft += 100;
+	if((slides * 1100) === marginleft){
+ 		marginleft = 0; 
+ 		//increment = 0;
+ 	}else{
+ 		marginleft += 100;
 		
-// 	}
+ 	}
 
-// },100);
+},100);
 
 
 right.onclick = function(){
